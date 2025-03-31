@@ -1,19 +1,22 @@
+import { 
+  Type, Palette, Film, ArrowRight 
+} from "lucide-react";
+
 interface StepProps {
   number: number;
-  icon: string;
+  icon: React.ReactNode;
   bgColor: string;
-  iconColor: string;
   title: string;
   description: string;
   isLast?: boolean;
 }
 
-function Step({ number, icon, bgColor, iconColor, title, description, isLast = false }: StepProps) {
+function Step({ number, icon, bgColor, title, description, isLast = false }: StepProps) {
   return (
     <>
       <div className="flex flex-col items-center max-w-xs text-center">
         <div className={`${bgColor} w-16 h-16 rounded-full flex items-center justify-center mb-6`}>
-          <i className={`material-icons ${iconColor} text-3xl`}>{icon}</i>
+          {icon}
         </div>
         <h3 className="text-xl font-semibold mb-3">{number}. {title}</h3>
         <p className="text-mediumText">
@@ -23,7 +26,7 @@ function Step({ number, icon, bgColor, iconColor, title, description, isLast = f
       
       {!isLast && (
         <div className="hidden md:block text-primary">
-          <i className="material-icons text-3xl">arrow_forward</i>
+          <ArrowRight className="w-6 h-6" />
         </div>
       )}
     </>
@@ -34,25 +37,22 @@ export function HowItWorksSection() {
   const steps = [
     {
       number: 1,
-      icon: "text_fields",
+      icon: <Type className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
-      iconColor: "text-primary",
       title: "Metninizi Yazın",
       description: "Videolaştırmak istediğiniz metni girin veya yapay zeka asistanından yardım alın."
     },
     {
       number: 2,
-      icon: "palette",
+      icon: <Palette className="w-6 h-6 text-secondary" />,
       bgColor: "bg-secondary bg-opacity-20",
-      iconColor: "text-secondary",
       title: "Ayarları Seçin",
       description: "Video süresini, formatını ve görsel stilini belirleyin."
     },
     {
       number: 3,
-      icon: "movie",
+      icon: <Film className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
-      iconColor: "text-primary",
       title: "Videonuzu İndirin",
       description: "Oluşturulan videoyu indirin veya doğrudan sosyal medyada paylaşın."
     }
@@ -75,7 +75,6 @@ export function HowItWorksSection() {
               number={step.number}
               icon={step.icon}
               bgColor={step.bgColor}
-              iconColor={step.iconColor}
               title={step.title}
               description={step.description}
               isLast={index === steps.length - 1}

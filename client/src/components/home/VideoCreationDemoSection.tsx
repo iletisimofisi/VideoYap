@@ -4,6 +4,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { useModal } from "@/context/ModalContext";
+import { 
+  Sparkles, 
+  Building2, 
+  Laugh, 
+  Clapperboard, 
+  Film, 
+  InfoIcon 
+} from "lucide-react";
 
 interface VideoFormatOptionProps {
   aspectRatio: string;
@@ -33,7 +41,7 @@ function VideoFormatOption({ aspectRatio, label, tooltip, isSelected, onClick }:
 }
 
 interface StyleOptionProps {
-  icon: string;
+  icon: React.ReactNode;
   label: string;
   isSelected: boolean;
   onClick: () => void;
@@ -45,7 +53,7 @@ function StyleOption({ icon, label, isSelected, onClick }: StyleOptionProps) {
       className={`${isSelected ? 'bg-primary bg-opacity-20 border-2 border-primary' : 'bg-darkBg hover:bg-opacity-80 border border-darkBorder'} rounded-lg p-3 text-center cursor-pointer transition-all`}
       onClick={onClick}
     >
-      <i className="material-icons mb-1">{icon}</i>
+      <div className="mb-1 flex justify-center">{icon}</div>
       <span className="text-sm">{label}</span>
     </div>
   );
@@ -67,10 +75,10 @@ export function VideoCreationDemoSection() {
   ];
 
   const styles = [
-    { icon: "style", label: "Modern" },
-    { icon: "business", label: "Kurumsal" },
-    { icon: "mood", label: "Eğlenceli" },
-    { icon: "theaters", label: "Sinematik" }
+    { icon: <Sparkles className="w-6 h-6 text-primary" />, label: "Modern" },
+    { icon: <Building2 className="w-6 h-6 text-secondary" />, label: "Kurumsal" },
+    { icon: <Laugh className="w-6 h-6 text-primary" />, label: "Eğlenceli" },
+    { icon: <Clapperboard className="w-6 h-6 text-secondary" />, label: "Sinematik" }
   ];
 
   const handleCreateVideo = () => {
@@ -122,8 +130,8 @@ export function VideoCreationDemoSection() {
               className="w-full px-4 py-3 rounded-lg bg-darkBg border border-darkBorder text-white focus:border-primary focus:outline-none min-h-[120px] placeholder:text-gray-500" 
               placeholder="Videonuzda gösterilmesini istediğiniz metni buraya yazın..."
             />
-            <p className="text-sm text-mediumText mt-2">
-              <i className="material-icons text-xs align-middle">info</i>
+            <p className="text-sm text-mediumText mt-2 flex items-center">
+              <InfoIcon className="w-4 h-4 mr-1" />
               En iyi sonuç için 1-3 cümle kullanın.
             </p>
           </div>
@@ -181,7 +189,7 @@ export function VideoCreationDemoSection() {
               onClick={handleCreateVideo}
               className="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-full font-medium transition-all flex items-center justify-center shadow-none hover:shadow-[0_0_15px_rgba(156,39,176,0.5)]"
             >
-              <i className="material-icons mr-2">movie_filter</i>
+              <Film className="w-5 h-5 mr-2" />
               Video Oluştur
             </Button>
           </div>

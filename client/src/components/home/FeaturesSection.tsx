@@ -1,17 +1,20 @@
+import { 
+  Brain, Users, Zap, Video, Gift, Images
+} from "lucide-react";
+
 interface FeatureProps {
-  icon: string;
-  iconColor: string;
+  icon: React.ReactNode;
   bgColor: string;
   title: string;
   description: string;
 }
 
-function FeatureCard({ icon, iconColor, bgColor, title, description }: FeatureProps) {
+function FeatureCard({ icon, bgColor, title, description }: FeatureProps) {
   return (
     <div className="bg-darkSurface p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
       <div className="flex justify-start items-center mb-4">
         <div className={`${bgColor} p-3 rounded-lg`}>
-          <i className={`material-icons ${iconColor} text-2xl`}>{icon}</i>
+          {icon}
         </div>
         <h3 className="text-xl font-semibold ml-4">{title}</h3>
       </div>
@@ -25,43 +28,37 @@ function FeatureCard({ icon, iconColor, bgColor, title, description }: FeaturePr
 export function FeaturesSection() {
   const features = [
     {
-      icon: "smart_toy",
-      iconColor: "text-primary",
+      icon: <Brain className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
       title: "Yapay Zeka Gücü",
       description: "Gelişmiş yapay zeka modelleri ile metinlerinizi etkileyici videolara dönüştürün."
     },
     {
-      icon: "elderly",
-      iconColor: "text-secondary",
+      icon: <Users className="w-6 h-6 text-secondary" />,
       bgColor: "bg-secondary bg-opacity-20",
       title: "Kolay Kullanım",
       description: "Basit ve anlaşılır arayüz ile yaşlılar ve çocuklar dahil herkes kolayca kullanabilir."
     },
     {
-      icon: "bolt",
-      iconColor: "text-primary",
+      icon: <Zap className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
       title: "Hızlı Oluşturma",
       description: "Saniyeler içinde metninizi profesyonel görünümlü videolara dönüştürün."
     },
     {
-      icon: "video_library",
-      iconColor: "text-secondary",
+      icon: <Video className="w-6 h-6 text-secondary" />,
       bgColor: "bg-secondary bg-opacity-20",
       title: "Çeşitli Formatlar",
       description: "Youtube shorts, TikTok, Instagram ve diğer platformlar için uygun boyutlarda videolar."
     },
     {
-      icon: "card_giftcard",
-      iconColor: "text-primary",
+      icon: <Gift className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
       title: "Ücretsiz Kullanım",
       description: "Ücretsiz üyelik sistemi ile puan kazanın ve daha fazla video oluşturun."
     },
     {
-      icon: "collections",
-      iconColor: "text-secondary",
+      icon: <Images className="w-6 h-6 text-secondary" />,
       bgColor: "bg-secondary bg-opacity-20",
       title: "Hazır Medya",
       description: "Ücretsiz stok video ve görseller ile içeriklerinizi zenginleştirin."
@@ -83,7 +80,6 @@ export function FeaturesSection() {
             <FeatureCard 
               key={index}
               icon={feature.icon}
-              iconColor={feature.iconColor}
               bgColor={feature.bgColor}
               title={feature.title}
               description={feature.description}
