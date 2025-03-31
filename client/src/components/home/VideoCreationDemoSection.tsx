@@ -45,7 +45,7 @@ function StyleOption({ icon, label, isSelected, onClick }: StyleOptionProps) {
       className={`${isSelected ? 'bg-primary bg-opacity-20 border-2 border-primary' : 'bg-darkBg hover:bg-opacity-80 border border-darkBorder'} rounded-lg p-3 text-center cursor-pointer transition-all`}
       onClick={onClick}
     >
-      <span className="material-icons mb-1">{icon}</span>
+      <i className="material-icons mb-1">{icon}</i>
       <span className="text-sm">{label}</span>
     </div>
   );
@@ -123,7 +123,7 @@ export function VideoCreationDemoSection() {
               placeholder="Videonuzda gösterilmesini istediğiniz metni buraya yazın..."
             />
             <p className="text-sm text-mediumText mt-2">
-              <span className="material-icons text-xs align-middle">info</span>
+              <i className="material-icons text-xs align-middle">info</i>
               En iyi sonuç için 1-3 cümle kullanın.
             </p>
           </div>
@@ -181,7 +181,7 @@ export function VideoCreationDemoSection() {
               onClick={handleCreateVideo}
               className="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-full font-medium transition-all flex items-center justify-center shadow-none hover:shadow-[0_0_15px_rgba(156,39,176,0.5)]"
             >
-              <span className="material-icons mr-2">movie_filter</span>
+              <i className="material-icons mr-2">movie_filter</i>
               Video Oluştur
             </Button>
           </div>

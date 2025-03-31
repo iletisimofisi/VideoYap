@@ -11,7 +11,7 @@ function FeatureCard({ icon, iconColor, bgColor, title, description }: FeaturePr
     <div className="bg-darkSurface p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
       <div className="flex justify-start items-center mb-4">
         <div className={`${bgColor} p-3 rounded-lg`}>
-          <span className={`material-icons ${iconColor} text-2xl`}>{icon}</span>
+          <i className={`material-icons ${iconColor} text-2xl`}>{icon}</i>
         </div>
         <h3 className="text-xl font-semibold ml-4">{title}</h3>
       </div>

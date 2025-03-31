@@ -13,7 +13,7 @@ function Step({ number, icon, bgColor, iconColor, title, description, isLast = f
     <>
       <div className="flex flex-col items-center max-w-xs text-center">
         <div className={`${bgColor} w-16 h-16 rounded-full flex items-center justify-center mb-6`}>
-          <span className={`material-icons ${iconColor} text-3xl`}>{icon}</span>
+          <i className={`material-icons ${iconColor} text-3xl`}>{icon}</i>
         </div>
         <h3 className="text-xl font-semibold mb-3">{number}. {title}</h3>
         <p className="text-mediumText">
@@ -23,7 +23,7 @@ function Step({ number, icon, bgColor, iconColor, title, description, isLast = f
       
       {!isLast && (
         <div className="hidden md:block text-primary">
-          <span className="material-icons text-3xl">arrow_forward</span>
+          <i className="material-icons text-3xl">arrow_forward</i>
         </div>
       )}
     </>
