@@ -1,0 +1,67 @@
+VideoYap: Creating Video from Text with Artificial Intelligence Support
+
+1. Project Description
+
+Prepare a completely Turkish website for the elderly, children and those who are just learning the internet. Anyone who wants can create a video for free.
+
+Although the content does not include the phrases "elderly, children and those who are just learning the internet", these words are targeted in the SEO tags.
+
+VideoYap is a web platform where users can create videos with AI-supported tools. It has been developed with free AI models and aims to provide a user-friendly experience.
+
+2. Technological Infrastructure
+
+Subdomain Name: Vercel
+
+Hosting: GitHub
+
+Coding: Replit
+
+Interface: Dark theme (Elegance colors)
+
+SEO Friendly Structure: Link extensions are optimized to be in Turkish.
+
+Membership System: Account management module that allows users to log in. Free membership system with a credit fee called "Point".
+
+Social account colorful logos pop-up window entry with one-click login and registration options. Terms of use acceptance message after registration
+
+Database: A database structure optimized to store user information and content.
+
+Social Media Login: Support for login with social media accounts such as Google, Facebook, etc.
+
+Admin Panel: Provides the ability to add, remove and edit themes, add, remove and edit templates, add, remove and edit pages with a system similar to WordPress.
+
+3. Usage Scenarios
+
+A. Artificial Intelligence Chat
+
+Users can prepare text with 1 sentence with advanced artificial intelligence models, divide texts into sections and create 1-3-5 minute videos.
+
+Using free stock video and image systems, suitable content can be prepared with Youtube shorts, TikTok, Instagram, Facebook, 16:9 and various video scales.
+
+The user is helped by providing text-based interaction.
+
+4. SEO Strategy
+
+User-friendly URL structure with Turkish link extension.
+
+SEO title and meta descriptions are optimized using keywords.
+
+5. Artificial Intelligence Models
+
+VideoYap works integrated with all AI models:
+
+Preparing the infrastructure,
+
+6. Admin Panel Features
+
+Adding, removing, updating pages.
+
+User management and permission settings.
+
+SEO optimization tools.
+
+Content moderation and monitoring mechanism.
+
+7. Conclusion
+
+VideoYap is a web platform equipped with a user-friendly interface and artificial intelligence-supported services. It is a system that allows everyone to benefit from artificial intelligence with its easy use and powerful artificial intelligence tools.
