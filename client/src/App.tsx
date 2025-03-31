@@ -8,11 +8,14 @@ import ProfilePage from "@/pages/ProfilePage";
 import NotificationsPage from "@/pages/NotificationsPage";
 import MyVideosPage from "@/pages/videos/MyVideosPage";
 import VideoDetailPage from "@/pages/videos/VideoDetailPage";
+import { lazy, Suspense } from "react";
 import { Header } from "@/components/layouts/Header";
 import { Footer } from "@/components/layouts/Footer";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { TermsOfServiceModal } from "@/components/auth/TermsOfServiceModal";
 import { useModal } from "@/context/ModalContext";
+
+const AdminDashboard = lazy(() => import("@/pages/admin/AdminDashboard"));
 
 function Router() {
   return (
@@ -22,6 +25,11 @@ function Router() {
       <Route path="/notifications" component={NotificationsPage} />
       <Route path="/videos" component={MyVideosPage} />
       <Route path="/videos/:videoId" component={VideoDetailPage} />
+      <Route path="/admin">
+        <Suspense fallback={<div className="p-12 text-center">Yükleniyor...</div>}>
+          <AdminDashboard />
+        </Suspense>
+      </Route>
       <Route component={NotFound} />
     </Switch>
   );

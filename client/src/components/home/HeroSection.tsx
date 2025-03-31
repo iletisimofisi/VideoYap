@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/ModalContext";
 import { Link } from "wouter";
+import { Play, Film } from "lucide-react";
 
 export function HeroSection() {
   const { openLoginModal } = useModal();
@@ -21,7 +22,7 @@ export function HeroSection() {
                 className="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-full font-medium transition-all flex items-center justify-center shadow-none hover:shadow-[0_0_15px_rgba(156,39,176,0.5)]"
                 onClick={openLoginModal}
               >
-                <span className="material-icons mr-2">play_arrow</span>
+                <Play className="w-5 h-5 mr-2" />
                 Hemen Başla
               </Button>
               <Link href="/#examples">
@@ -29,7 +30,7 @@ export function HeroSection() {
                   variant="outline"
                   className="border border-primary text-primary hover:bg-primary hover:bg-opacity-10 px-8 py-3 rounded-full font-medium transition-all flex items-center justify-center w-full sm:w-auto"
                 >
-                  <span className="material-icons mr-2">video_library</span>
+                  <Film className="w-5 h-5 mr-2" />
                   Örnekleri Gör
                 </Button>
               </Link>
@@ -42,10 +43,7 @@ export function HeroSection() {
                 alt="VideoYap Yapay Zeka Video Oluşturucu" 
                 className="rounded-lg shadow-2xl w-full h-auto max-w-lg mx-auto"
               />
-              <div className="absolute -bottom-5 -right-5 bg-darkSurface p-3 rounded-lg shadow-lg flex items-center space-x-2 border border-darkBorder">
-                <span className="material-icons text-secondary">check_circle</span>
-                <span className="font-medium">Tamamen Ücretsiz</span>
-              </div>
+
             </div>
           </div>
         </div>

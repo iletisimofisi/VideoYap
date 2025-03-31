@@ -1,448 +1,594 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useLocation, useRoute, Link } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useParams, Link, useLocation } from "wouter";
-import { calculateVideoPoints } from "@/lib/utils";
+import {
+  ArrowLeft,
+  Share,
+  Download,
+  Edit,
+  Trash2,
+  MessageSquare,
+  Eye,
+  Copy,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Play,
+  Link as LinkIcon,
+  Thermometer
+} from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger,
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog";
 
-interface VideoDetails {
-  id: number;
-  text: string;
-  duration: number;
-  format: string;
-  style: string;
-  status: string;
-  url?: string;
-  thumbnailUrl?: string;
-  createdAt: string;
-}
+// Örnek video verileri - gerçekte API'den gelecek
+const mockVideos = [
+  {
+    id: 1,
+    title: "Türkiye'nin Doğal Güzellikleri",
+    description: "Bu videoda Türkiye'nin farklı bölgelerindeki doğal güzellikleri tanıtıyoruz. Karadeniz'in yemyeşil yaylaları, Akdeniz'in berrak suları, Kapadokya'nın peri bacaları ve daha fazlası...",
+    thumbnail: "https://placehold.co/1280x720/252530/FFFFFF/png?text=Türkiye+Doğası",
+    videoUrl: "https://example.com/videos/1.mp4",
+    duration: "3:45",
+    createdAt: "2023-12-10T14:30:00Z",
+    status: "completed",
+    views: 125,
+    style: "belgesel",
+    aspect: "16:9",
+    tags: ["doğa", "türkiye", "seyahat", "belgesel"],
+    originalText: "Türkiye, doğal güzellikleriyle dünyanın en zengin ülkelerinden biridir. Karadeniz'in yemyeşil yaylaları, Akdeniz'in berrak suları, Ege'nin zeytin ağaçları, Doğu Anadolu'nun görkemli dağları ve Kapadokya'nın peri bacaları... Her bölge birbirinden farklı doğal harikalar sunuyor. Bu video, Türkiye'nin dört bir yanındaki doğal güzellikleri keşfetmenizi sağlayacak.",
+    shareCode: "TRDoğa2023"
+  },
+  {
+    id: 2,
+    title: "Sağlıklı Yaşam için Egzersiz İpuçları",
+    description: "Evde kolayca yapabileceğiniz egzersizler ve sağlıklı yaşam için öneriler. Kardiyo, kuvvet antrenmanı ve esneme hareketleri dahil.",
+    thumbnail: "https://placehold.co/1280x720/252530/FFFFFF/png?text=Egzersiz+İpuçları",
+    videoUrl: "https://example.com/videos/2.mp4",
+    duration: "5:20",
+    createdAt: "2023-12-05T10:15:00Z",
+    status: "completed",
+    views: 87,
+    style: "eğitim",
+    aspect: "16:9",
+    tags: ["sağlık", "egzersiz", "spor", "yaşam"],
+    originalText: "Düzenli egzersiz yapmak, sağlıklı bir yaşam için en önemli alışkanlıklardan biridir. Evde kolayca yapabileceğiniz basit egzersizlerle bile formda kalabilirsiniz. Kardiyo egzersizleri kalbinizi güçlendirirken, kuvvet antrenmanları kaslarınızı geliştirir. Esneme hareketleri ise esnekliğinizi artırır ve sakatlanma riskini azaltır. Bu videoda, evde kolayca uygulayabileceğiniz egzersizleri ve sağlıklı bir yaşam için ipuçlarını bulacaksınız.",
+    shareCode: "Egzersiz2023"
+  },
+  {
+    id: 3,
+    title: "İstanbul Tarihi Yerler Turu",
+    description: "İstanbul'un en önemli tarihi mekanlarının sanal turu. Ayasofya, Topkapı Sarayı, Sultanahmet Camii ve dahası bu videoda.",
+    thumbnail: "https://placehold.co/1280x720/252530/FFFFFF/png?text=İstanbul+Turu",
+    videoUrl: "https://example.com/videos/3.mp4",
+    duration: "8:10",
+    createdAt: "2023-11-28T16:45:00Z",
+    status: "completed",
+    views: 210,
+    style: "gezi",
+    aspect: "16:9",
+    tags: ["istanbul", "tarih", "gezi", "kültür"],
+    originalText: "İstanbul, iki kıtayı birleştiren eşsiz konumu ve binlerce yıllık tarihi ile dünyanın en etkileyici şehirlerinden biridir. Bizans ve Osmanlı İmparatorluklarına başkentlik yapmış olan bu şehir, muhteşem mimari eserlere ev sahipliği yapmaktadır. Ayasofya, Topkapı Sarayı, Sultanahmet Camii, Yerebatan Sarnıcı ve Kapalıçarşı gibi önemli tarihi mekânlar, her yıl milyonlarca turisti ağırlamaktadır. Bu videoda İstanbul'un en önemli tarihi yerlerini keşfedecek ve bu muhteşem şehrin tarihi dokusunu hissedeceksiniz.",
+    shareCode: "Istanbul2023"
+  },
+  {
+    id: 5,
+    title: "Yeni Video - İşleniyor",
+    description: "Bu video şu anda işleniyor, lütfen bekleyin...",
+    thumbnail: "https://placehold.co/1280x720/252530/FFFFFF/png?text=İşleniyor",
+    videoUrl: null,
+    duration: "???",
+    createdAt: "2023-12-15T13:25:00Z",
+    status: "processing",
+    views: 0,
+    style: "bilgilendirme",
+    aspect: "16:9",
+    tags: ["yeni", "içerik"],
+    originalText: "Bu bir test metnidir. Video işleme süreci devam ediyor. Birkaç dakika içinde işlem tamamlanacak ve videonuz hazır olacaktır.",
+    shareCode: null
+  },
+  {
+    id: 6,
+    title: "Anadolu Kültürü",
+    description: "Video oluşturma işlemi başarısız oldu. Tekrar deneyebilirsiniz.",
+    thumbnail: "https://placehold.co/1280x720/252530/FFFFFF/png?text=Oluşturma+Başarısız",
+    videoUrl: null,
+    duration: "N/A",
+    createdAt: "2023-12-14T11:10:00Z",
+    status: "failed",
+    views: 0,
+    style: "belgesel",
+    aspect: "16:9",
+    tags: ["kültür", "anadolu"],
+    originalText: "Anadolu, binlerce yıllık kültürel mirasıyla dünyanın en zengin bölgelerinden biridir. Hitit, Frigya, Lidya, Urartu gibi birçok antik uygarlığa ev sahipliği yapmış olan Anadolu toprakları, çeşitli kültürlerin izlerini taşımaktadır. Bu video, Anadolu'nun zengin kültürel mirasını, gelenek ve göreneklerini, müziklerini, yemeklerini ve el sanatlarını tanıtmaktadır.",
+    shareCode: null,
+    errorMessage: "Video içeriği oluşturulamadı. Lütfen metni kontrol edip tekrar deneyin."
+  }
+];
 
 export default function VideoDetailPage() {
-  const { videoId } = useParams();
   const { isLoggedIn } = useAuth();
   const [, navigate] = useLocation();
-  const { toast } = useToast();
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [match, params] = useRoute<{ videoId: string }>("/videos/:videoId");
+  const [video, setVideo] = useState<any>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("info");
+  const [commentText, setCommentText] = useState("");
   
-  // Video verilerini çekmek için sorgu
-  const {
-    data: video,
-    isLoading,
-    isError,
-    error
-  } = useQuery<VideoDetails>({
-    queryKey: ['/api/videos', videoId],
-    retry: 1,
-    enabled: isLoggedIn && !!videoId // Sadece giriş yapılmışsa ve ID varsa çalıştır
-  });
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
+      return;
+    }
+    
+    if (match && params?.videoId) {
+      // Gerçek uygulamada API'den video bilgilerini çekmek gerekir
+      const foundVideo = mockVideos.find(v => v.id === parseInt(params.videoId));
+      if (foundVideo) {
+        setVideo(foundVideo);
+      } else {
+        navigate("/videos");
+      }
+    }
+  }, [match, params, isLoggedIn, navigate]);
 
-  // Örnek video verisi (normalde API'den gelecek)
-  const sampleVideo = {
-    id: Number(videoId),
-    text: "Yapay zeka teknolojileri hakkında kısa bir tanıtım. Günümüzde yapay zekanın birçok alanda kullanımı yaygınlaşıyor ve bu teknolojiler hayatımızın her alanına entegre oluyor. Bu videoda yapay zekanın temel kavramlarını ve kullanım alanlarını inceliyoruz.",
-    duration: 3,
-    format: "16/9",
-    style: "Modern",
-    status: "completed",
-    url: "https://example.com/videos/123.mp4", // Örnek URL
-    thumbnailUrl: "https://images.unsplash.com/photo-1677442135309-c374cd55d7de?q=80&w=2832&auto=format&fit=crop",
-    createdAt: "2023-05-15T10:30:00Z"
+  if (!video) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[50vh]">
+        <div className="flex flex-col items-center text-center">
+          <Clock className="w-16 h-16 text-primary animate-pulse mb-4" />
+          <h2 className="text-2xl font-bold text-white mb-2">Video Yükleniyor...</h2>
+          <p className="text-gray-400">Video bilgileri yükleniyor, lütfen bekleyin.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('tr-TR', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(date);
   };
 
-  // Gerçek veri gelene kadar örnek veriyi kullan
-  const displayVideo = video || sampleVideo;
-  
-  // Video indirme fonksiyonu
-  const handleDownload = () => {
-    // Gerçek uygulamada URL üzerinden indirme işlemi yapılır
-    toast({
-      title: "Video indiriliyor",
-      description: "Video indirme işleminiz başladı."
-    });
-  };
-  
-  // Video paylaşma fonksiyonu
-  const handleShare = () => {
-    setIsShareModalOpen(true);
-  };
-  
-  // Video silme fonksiyonu
-  const handleDelete = () => {
-    // Silme onayı iste
-    const isConfirmed = window.confirm("Bu videoyu silmek istediğinize emin misiniz?");
-    if (isConfirmed) {
-      toast({
-        title: "Video silindi",
-        description: "Video başarıyla silindi."
-      });
-      navigate("/videos");
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "completed":
+        return <CheckCircle className="w-5 h-5 text-green-500" />;
+      case "processing":
+        return <Clock className="w-5 h-5 text-amber-500" />;
+      case "failed":
+        return <XCircle className="w-5 h-5 text-red-500" />;
+      default:
+        return null;
     }
   };
-  
-  if (!isLoggedIn) {
-    // Kullanıcı giriş yapmamışsa
-    return (
-      <div className="py-16 bg-darkBg min-h-screen">
-        <div className="container mx-auto px-4">
-          <div className="bg-darkSurface rounded-xl p-8 text-center">
-            <div className="flex justify-center mb-4">
-              <span className="material-icons text-5xl text-mediumText">lock</span>
-            </div>
-            <h3 className="text-xl font-medium mb-2">Giriş Yapmanız Gerekiyor</h3>
-            <p className="text-mediumText mb-6">
-              Bu içeriği görüntülemek için lütfen giriş yapın.
-            </p>
-            <Link href="/">
-              <Button
-                className="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-full font-medium transition-all"
-              >
-                <span className="material-icons mr-2">home</span>
-                Ana Sayfaya Dön
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
-  if (isLoading) {
-    return (
-      <div className="py-16 bg-darkBg min-h-screen">
-        <div className="container mx-auto px-4">
-          <div className="mb-6">
-            <Link href="/videos">
-              <Button
-                variant="ghost"
-                className="text-mediumText hover:text-white mb-4"
-              >
-                <span className="material-icons mr-2">arrow_back</span>
-                Videolarım
-              </Button>
-            </Link>
-            <Skeleton className="h-10 w-3/4 mb-2" />
-            <Skeleton className="h-5 w-1/2" />
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <Skeleton className="w-full aspect-video rounded-lg" />
-            </div>
-            
-            <div className="bg-darkSurface rounded-lg p-6">
-              <Skeleton className="h-6 w-1/2 mb-4" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-3/4 mb-6" />
-              
-              <div className="flex flex-wrap gap-2 mb-6">
-                <Skeleton className="h-6 w-16" />
-                <Skeleton className="h-6 w-16" />
-                <Skeleton className="h-6 w-16" />
-              </div>
-              
-              <div className="space-y-3">
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "completed":
+        return "Tamamlandı";
+      case "processing":
+        return "İşleniyor";
+      case "failed":
+        return "Başarısız";
+      default:
+        return status;
+    }
+  };
 
-  if (isError) {
-    return (
-      <div className="py-16 bg-darkBg min-h-screen">
-        <div className="container mx-auto px-4">
-          <div className="bg-darkSurface rounded-xl p-8 text-center">
-            <div className="flex justify-center mb-4">
-              <span className="material-icons text-5xl text-destructive">error</span>
-            </div>
-            <h3 className="text-xl font-medium mb-2">Video yüklenirken bir hata oluştu</h3>
-            <p className="text-mediumText mb-6">
-              Bu video bulunamadı veya erişim izniniz yok.
-            </p>
-            <Link href="/videos">
-              <Button
-                className="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-full font-medium transition-all"
-              >
-                <span className="material-icons mr-2">movie</span>
-                Videolarıma Dön
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const handleShare = () => {
+    // Paylaşma fonksiyonu
+    console.log("Paylaşma işlemi:", video.title);
+  };
 
-  const date = new Date(displayVideo.createdAt);
-  const formattedDate = new Intl.DateTimeFormat("tr-TR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(date);
+  const handleDownload = () => {
+    // İndirme fonksiyonu
+    console.log("İndirme işlemi:", video.videoUrl);
+  };
 
-  // Format dönüşümü
-  const formatLabels: { [key: string]: string } = {
-    "16/9": "Yatay (16:9)",
-    "9/16": "Dikey (9:16)",
-    "4/5": "Kare (4:5)"
+  const handleEdit = () => {
+    // Düzenleme fonksiyonu
+    console.log("Düzenleme işlemi:", video.id);
+  };
+
+  const handleDelete = () => {
+    // Silme fonksiyonu
+    console.log("Silme işlemi:", video.id);
+    setIsDeleteDialogOpen(false);
+    // Silme işleminden sonra videoları listesine geri dön
+    navigate("/videos");
+  };
+
+  const handleCopyLink = () => {
+    // Bağlantıyı kopyalama işlemi
+    const videoUrl = `${window.location.origin}/videos/${video.id}`;
+    navigator.clipboard.writeText(videoUrl)
+      .then(() => {
+        console.log("Bağlantı kopyalandı:", videoUrl);
+      })
+      .catch(err => {
+        console.error("Kopyalama hatası:", err);
+      });
+  };
+
+  const handleCopyCode = () => {
+    // Paylaşım kodunu kopyalama işlemi
+    if (video.shareCode) {
+      navigator.clipboard.writeText(video.shareCode)
+        .then(() => {
+          console.log("Kod kopyalandı:", video.shareCode);
+        })
+        .catch(err => {
+          console.error("Kopyalama hatası:", err);
+        });
+    }
+  };
+
+  const handleAddComment = () => {
+    if (commentText.trim()) {
+      console.log("Yorum eklendi:", commentText);
+      setCommentText("");
+    }
   };
 
   return (
-    <div className="py-16 bg-darkBg min-h-screen">
-      <div className="container mx-auto px-4">
-        <div className="mb-6">
-          <Link href="/videos">
-            <Button
-              variant="ghost"
-              className="text-mediumText hover:text-white mb-4"
-            >
-              <span className="material-icons mr-2">arrow_back</span>
-              Videolarım
-            </Button>
-          </Link>
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">Video Detayları</h1>
-          <p className="text-mediumText">
-            {formattedDate} tarihinde oluşturuldu
-          </p>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-6">
+        <div className="flex items-center mb-2">
+          <Button 
+            variant="ghost" 
+            className="mr-2 p-2"
+            onClick={() => navigate("/videos")}
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <h1 className="text-2xl md:text-3xl font-bold text-white flex-grow truncate">
+            {video.title}
+          </h1>
+          <div className="flex items-center">
+            {getStatusIcon(video.status)}
+            <span className={`ml-2 text-sm font-medium ${
+              video.status === "completed" ? "text-green-500" : 
+              video.status === "processing" ? "text-amber-500" : 
+              "text-red-500"
+            }`}>
+              {getStatusText(video.status)}
+            </span>
+          </div>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Video oynatıcı */}
-          <div className="lg:col-span-2">
-            {displayVideo.status === "completed" ? (
-              <div className="relative aspect-video bg-darkSurface rounded-lg overflow-hidden shadow-lg">
-                {displayVideo.url ? (
-                  <video
-                    controls
-                    poster={displayVideo.thumbnailUrl}
-                    className="w-full h-full object-cover"
-                  >
-                    <source src={displayVideo.url} type="video/mp4" />
-                    Tarayıcınız video etiketini desteklemiyor.
-                  </video>
-                ) : (
-                  <>
-                    <img
-                      src={displayVideo.thumbnailUrl}
-                      alt="Video önizleme"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                      <button className="bg-primary bg-opacity-90 text-white rounded-full w-16 h-16 flex items-center justify-center">
-                        <span className="material-icons text-3xl">play_arrow</span>
-                      </button>
-                    </div>
-                  </>
-                )}
+        <p className="text-gray-400 text-sm mb-4">
+          Oluşturulma: {formatDate(video.createdAt)} | 
+          İzlenme: {video.views} | 
+          Süre: {video.duration}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2">
+          <div className="relative aspect-video bg-darkBorder overflow-hidden rounded-md">
+            {video.status === "completed" ? (
+              <>
+                <img 
+                  src={video.thumbnail} 
+                  alt={video.title} 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <Button className="bg-primary hover:bg-primary/90 rounded-full p-3 h-auto w-auto">
+                    <Play className="w-8 h-8 text-white" />
+                  </Button>
+                </div>
+              </>
+            ) : video.status === "processing" ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <Clock className="w-16 h-16 text-amber-500 animate-pulse mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">Video İşleniyor</h3>
+                <p className="text-gray-400 text-center max-w-md px-4">
+                  Videonuz hazırlanıyor. Bu işlem birkaç dakika sürebilir.
+                </p>
+                <div className="w-64 h-2 bg-darkBorder rounded-full mt-6 overflow-hidden">
+                  <div className="h-full bg-amber-500 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+                </div>
               </div>
             ) : (
-              <div className="relative aspect-video bg-darkSurface rounded-lg overflow-hidden shadow-lg flex flex-col items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
-                <p className="text-lg font-medium text-white">Videonuz İşleniyor</p>
-                <p className="text-mediumText">Bu işlem birkaç dakika sürebilir.</p>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <XCircle className="w-16 h-16 text-red-500 mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">İşlem Başarısız</h3>
+                <p className="text-gray-400 text-center max-w-md px-4">
+                  {video.errorMessage || "Video oluşturma işlemi başarısız oldu. Lütfen tekrar deneyin."}
+                </p>
+                <Button 
+                  className="bg-primary hover:bg-primary/90 mt-6"
+                  onClick={handleEdit}
+                >
+                  Tekrar Dene
+                </Button>
               </div>
             )}
-            
-            <div className="mt-6">
-              <h2 className="text-xl font-bold mb-4">Video Metni</h2>
-              <div className="bg-darkSurface rounded-lg p-4 text-mediumText">
-                {displayVideo.text}
-              </div>
-            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mt-4">
+            {video.tags?.map((tag: string, index: number) => (
+              <Badge key={index} variant="outline" className="bg-darkSurface text-primary">
+                {tag}
+              </Badge>
+            ))}
           </div>
           
-          {/* Video bilgileri ve aksiyonlar */}
-          <div className="bg-darkSurface rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-4">Video Bilgileri</h2>
-            
-            <div className="space-y-4 mb-6">
-              <div>
-                <p className="text-sm text-mediumText">Durum:</p>
-                <p className="font-medium">
-                  {displayVideo.status === "completed" ? (
-                    <span className="flex items-center">
-                      <span className="material-icons text-green-500 mr-1">check_circle</span>
-                      Tamamlandı
-                    </span>
-                  ) : (
-                    <span className="flex items-center">
-                      <span className="material-icons text-amber-500 mr-1">pending</span>
-                      İşleniyor
-                    </span>
-                  )}
-                </p>
-              </div>
-              
-              <div>
-                <p className="text-sm text-mediumText">Süre:</p>
-                <p className="font-medium">{displayVideo.duration} dakika</p>
-              </div>
-              
-              <div>
-                <p className="text-sm text-mediumText">Format:</p>
-                <p className="font-medium">{formatLabels[displayVideo.format] || displayVideo.format}</p>
-              </div>
-              
-              <div>
-                <p className="text-sm text-mediumText">Stil:</p>
-                <p className="font-medium">{displayVideo.style}</p>
-              </div>
-              
-              <div>
-                <p className="text-sm text-mediumText">Kullanılan Puan:</p>
-                <p className="font-medium">{calculateVideoPoints(displayVideo.duration)} puan</p>
-              </div>
-            </div>
-            
-            <div className="space-y-3">
-              {displayVideo.status === "completed" && (
-                <>
-                  <Button
-                    className="w-full bg-primary hover:bg-opacity-90 text-white font-medium transition-all"
-                    onClick={handleDownload}
-                  >
-                    <span className="material-icons mr-2">download</span>
-                    İndir
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full border-primary text-primary hover:bg-primary hover:bg-opacity-10 font-medium transition-all"
-                    onClick={handleShare}
-                  >
-                    <span className="material-icons mr-2">share</span>
-                    Paylaş
-                  </Button>
-                </>
-              )}
-              
-              <Button
-                variant="outline"
-                className="w-full border-destructive text-destructive hover:bg-destructive hover:bg-opacity-10 font-medium transition-all"
-                onClick={handleDelete}
-              >
-                <span className="material-icons mr-2">delete</span>
-                Videoyu Sil
-              </Button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Benzer videolar önerisi */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">Benzer Videolar</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-darkSurface rounded-lg overflow-hidden border border-darkBorder hover:border-primary transition-all duration-300">
-              <div className="w-full h-40 bg-darkBg flex items-center justify-center">
-                <span className="material-icons text-5xl text-mediumText">movie</span>
-              </div>
-              <div className="p-4">
-                <p className="text-sm text-mediumText mb-2">27 Mayıs 2023</p>
-                <p className="font-medium mb-3 line-clamp-2">Teknoloji trendleri ve geleceğin inovasyonları hakkında bilgilendirici video</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="inline-block bg-darkBg text-mediumText text-xs px-2 py-1 rounded-full">
-                    Yatay (16:9)
-                  </span>
-                  <span className="inline-block bg-darkBg text-mediumText text-xs px-2 py-1 rounded-full">
-                    Kurumsal
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-darkSurface rounded-lg overflow-hidden border border-darkBorder hover:border-primary transition-all duration-300">
-              <div className="w-full h-40 bg-darkBg flex items-center justify-center">
-                <span className="material-icons text-5xl text-mediumText">movie</span>
-              </div>
-              <div className="p-4">
-                <p className="text-sm text-mediumText mb-2">12 Haziran 2023</p>
-                <p className="font-medium mb-3 line-clamp-2">Dijital pazarlama stratejileri ve sosyal medya kullanımı</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="inline-block bg-darkBg text-mediumText text-xs px-2 py-1 rounded-full">
-                    Kare (4:5)
-                  </span>
-                  <span className="inline-block bg-darkBg text-mediumText text-xs px-2 py-1 rounded-full">
-                    Modern
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Paylaşım modalı (basit bir örnek) */}
-        {isShareModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-            <div className="bg-darkSurface rounded-lg p-6 max-w-md w-full">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">Videoyu Paylaş</h3>
-                <button
-                  className="text-mediumText hover:text-white"
-                  onClick={() => setIsShareModalOpen(false)}
+          <div className="flex flex-wrap gap-2 mt-6">
+            <Button 
+              variant="outline" 
+              className="flex items-center"
+              onClick={handleShare}
+              disabled={video.status !== "completed"}
+            >
+              <Share className="w-4 h-4 mr-2" />
+              Paylaş
+            </Button>
+            <Button 
+              variant="outline" 
+              className="flex items-center"
+              onClick={handleDownload}
+              disabled={video.status !== "completed"}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              İndir
+            </Button>
+            <Button 
+              variant="outline" 
+              className="flex items-center"
+              onClick={handleEdit}
+            >
+              <Edit className="w-4 h-4 mr-2" />
+              Düzenle
+            </Button>
+            <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="flex items-center border-red-500 text-red-500 hover:bg-red-500/10"
                 >
-                  <span className="material-icons">close</span>
-                </button>
-              </div>
-              
-              <div className="mb-4">
-                <p className="text-sm text-mediumText mb-2">Video bağlantısı:</p>
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    value={`https://videoyap.com/share/${displayVideo.id}`}
-                    readOnly
-                    className="flex-1 px-3 py-2 rounded-l-lg bg-darkBg border border-darkBorder text-white focus:border-primary focus:outline-none"
-                  />
-                  <Button
-                    className="rounded-l-none bg-primary"
-                    onClick={() => {
-                      navigator.clipboard.writeText(`https://videoyap.com/share/${displayVideo.id}`);
-                      toast({
-                        title: "Kopyalandı",
-                        description: "Video bağlantısı panoya kopyalandı."
-                      });
-                    }}
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Sil
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-darkSurface border-darkBorder">
+                <DialogHeader>
+                  <DialogTitle className="text-white">Videoyu Sil</DialogTitle>
+                </DialogHeader>
+                <div className="py-4">
+                  <p className="text-gray-300">
+                    "{video.title}" adlı videoyu silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.
+                  </p>
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline" className="mr-2">
+                      İptal
+                    </Button>
+                  </DialogClose>
+                  <Button 
+                    variant="destructive" 
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={handleDelete}
                   >
-                    <span className="material-icons">content_copy</span>
+                    Sil
                   </Button>
-                </div>
-              </div>
-              
-              <div className="mb-6">
-                <p className="text-sm text-mediumText mb-3">Sosyal medyada paylaş:</p>
-                <div className="flex space-x-3">
-                  <Button className="flex-1 bg-blue-600 hover:bg-opacity-90">
-                    <span className="material-icons mr-2">facebook</span>
-                    Facebook
-                  </Button>
-                  <Button className="flex-1 bg-sky-500 hover:bg-opacity-90">
-                    <span className="material-icons mr-2">twitter</span>
-                    Twitter
-                  </Button>
-                  <Button className="flex-1 bg-green-600 hover:bg-opacity-90">
-                    <span className="material-icons mr-2">whatsapp</span>
-                    WhatsApp
-                  </Button>
-                </div>
-              </div>
-              
-              <Button
-                variant="outline"
-                className="w-full border-darkBorder text-mediumText hover:text-white"
-                onClick={() => setIsShareModalOpen(false)}
-              >
-                Kapat
-              </Button>
-            </div>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
-        )}
+        </div>
+
+        <div className="lg:col-span-1">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="w-full bg-darkSurface border-darkBorder">
+              <TabsTrigger 
+                value="info" 
+                className="flex-1 data-[state=active]:bg-primary/20 data-[state=active]:text-primary"
+              >
+                Bilgiler
+              </TabsTrigger>
+              <TabsTrigger 
+                value="comments" 
+                className="flex-1 data-[state=active]:bg-primary/20 data-[state=active]:text-primary"
+              >
+                Yorumlar
+              </TabsTrigger>
+              <TabsTrigger 
+                value="analytics" 
+                className="flex-1 data-[state=active]:bg-primary/20 data-[state=active]:text-primary"
+              >
+                Analitik
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="info" className="pt-4">
+              <Card className="bg-darkSurface border-darkBorder">
+                <CardContent className="p-4">
+                  <h3 className="text-lg font-semibold text-white mb-2">Video Açıklaması</h3>
+                  <p className="text-gray-300 text-sm mb-4">{video.description}</p>
+                  
+                  <Separator className="my-4 bg-darkBorder" />
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-400 mb-1">Stil</h4>
+                      <p className="text-white capitalize">{video.style}</p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-400 mb-1">En Boy Oranı</h4>
+                      <p className="text-white">{video.aspect}</p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-400 mb-1">Orijinal Metin</h4>
+                      <div className="bg-darkBg p-3 rounded-md text-sm text-gray-300 max-h-40 overflow-y-auto">
+                        {video.originalText}
+                      </div>
+                    </div>
+                    
+                    {video.shareCode && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-400 mb-1">Paylaşım Kodu</h4>
+                        <div className="flex items-center">
+                          <Input 
+                            readOnly 
+                            value={video.shareCode}
+                            className="bg-darkBg border-darkBorder text-white"
+                          />
+                          <Button 
+                            variant="ghost" 
+                            className="ml-2 h-9 w-9 p-0" 
+                            onClick={handleCopyCode}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-400 mb-1">Video Bağlantısı</h4>
+                      <div className="flex items-center">
+                        <Input 
+                          readOnly 
+                          value={`${window.location.origin}/videos/${video.id}`}
+                          className="bg-darkBg border-darkBorder text-white"
+                        />
+                        <Button 
+                          variant="ghost" 
+                          className="ml-2 h-9 w-9 p-0" 
+                          onClick={handleCopyLink}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="comments" className="pt-4">
+              <Card className="bg-darkSurface border-darkBorder">
+                <CardContent className="p-4">
+                  <div className="mb-4">
+                    <Textarea 
+                      placeholder="Yorumunuzu yazın..."
+                      className="bg-darkBg border-darkBorder text-white resize-none mb-2"
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                    />
+                    <Button 
+                      className="bg-primary hover:bg-primary/90 w-full"
+                      onClick={handleAddComment}
+                      disabled={!commentText.trim()}
+                    >
+                      <MessageSquare className="w-4 h-4 mr-2" />
+                      Yorum Ekle
+                    </Button>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <p className="text-gray-400 text-center py-4">
+                      Henüz yorum yapılmadı. İlk yorumu siz ekleyin!
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="analytics" className="pt-4">
+              <Card className="bg-darkSurface border-darkBorder">
+                <CardContent className="p-4">
+                  <div className="space-y-6">
+                    <div>
+                      <div className="flex items-center mb-3">
+                        <Eye className="w-5 h-5 text-blue-400 mr-2" />
+                        <h3 className="text-lg font-semibold text-white">İzlenme İstatistikleri</h3>
+                      </div>
+                      <div className="flex items-center p-4 rounded-md bg-darkBg">
+                        <div className="flex flex-col items-center flex-1">
+                          <span className="text-2xl font-bold text-white">{video.views}</span>
+                          <span className="text-xs text-gray-400">Toplam İzlenme</span>
+                        </div>
+                        <div className="flex flex-col items-center flex-1">
+                          <span className="text-2xl font-bold text-white">3</span>
+                          <span className="text-xs text-gray-400">Son 24 Saat</span>
+                        </div>
+                        <div className="flex flex-col items-center flex-1">
+                          <span className="text-2xl font-bold text-white">12</span>
+                          <span className="text-xs text-gray-400">Son 7 Gün</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center mb-3">
+                        <LinkIcon className="w-5 h-5 text-green-400 mr-2" />
+                        <h3 className="text-lg font-semibold text-white">Bağlantı Tıklamaları</h3>
+                      </div>
+                      <div className="flex items-center p-4 rounded-md bg-darkBg">
+                        <div className="flex flex-col items-center flex-1">
+                          <span className="text-2xl font-bold text-white">8</span>
+                          <span className="text-xs text-gray-400">Toplam Tıklama</span>
+                        </div>
+                        <div className="flex flex-col items-center flex-1">
+                          <span className="text-2xl font-bold text-white">1</span>
+                          <span className="text-xs text-gray-400">Son 24 Saat</span>
+                        </div>
+                        <div className="flex flex-col items-center flex-1">
+                          <span className="text-2xl font-bold text-white">3</span>
+                          <span className="text-xs text-gray-400">Son 7 Gün</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center mb-3">
+                        <Thermometer className="w-5 h-5 text-orange-400 mr-2" />
+                        <h3 className="text-lg font-semibold text-white">Etkileşim Oranı</h3>
+                      </div>
+                      <div className="p-4 rounded-md bg-darkBg">
+                        <div className="mb-2 flex justify-between">
+                          <span className="text-xs text-gray-400">Etkileşim Skoru</span>
+                          <span className="text-xs text-green-400">Yüksek</span>
+                        </div>
+                        <div className="w-full h-2 bg-darkBorder rounded-full overflow-hidden">
+                          <div className="h-full bg-green-500 rounded-full" style={{ width: '85%' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <Button className="w-full">
+                      Tam İstatistikleri Görüntüle
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

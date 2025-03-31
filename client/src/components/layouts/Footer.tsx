@@ -16,16 +16,16 @@ export function Footer() {
               Metin tabanlı içeriklerinizi yapay zeka ile profesyonel videolara dönüştürün.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-mediumText hover:text-primary transition-colors" aria-label="Facebook">
+              <a href="https://facebook.com" className="text-mediumText hover:text-primary transition-colors" aria-label="Facebook">
                 <span className="material-icons">facebook</span>
               </a>
-              <a href="#" className="text-mediumText hover:text-primary transition-colors" aria-label="Twitter">
+              <a href="https://twitter.com" className="text-mediumText hover:text-primary transition-colors" aria-label="Twitter">
                 <span className="material-icons">twitter</span>
               </a>
-              <a href="#" className="text-mediumText hover:text-primary transition-colors" aria-label="Instagram">
+              <a href="https://instagram.com" className="text-mediumText hover:text-primary transition-colors" aria-label="Instagram">
                 <span className="material-icons">instagram</span>
               </a>
-              <a href="#" className="text-mediumText hover:text-primary transition-colors" aria-label="YouTube">
+              <a href="https://youtube.com" className="text-mediumText hover:text-primary transition-colors" aria-label="YouTube">
                 <span className="material-icons">youtube_activity</span>
               </a>
             </div>

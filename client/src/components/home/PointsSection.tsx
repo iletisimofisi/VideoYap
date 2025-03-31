@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { CheckCircle, XCircle } from "lucide-react";
 
 interface PlanFeature {
   included: boolean;
@@ -45,9 +46,9 @@ function PricingPlan({
           {features.map((feature, index) => (
             <li key={index} className="flex items-center">
               {feature.included ? (
-                <span className="material-icons text-secondary mr-2">check_circle</span>
+                <CheckCircle className="w-5 h-5 text-secondary mr-2" />
               ) : (
-                <span className="material-icons text-mediumText mr-2">remove_circle_outline</span>
+                <XCircle className="w-5 h-5 text-mediumText mr-2" />
               )}
               <span className={feature.included ? '' : 'text-mediumText'}>{feature.text}</span>
             </li>

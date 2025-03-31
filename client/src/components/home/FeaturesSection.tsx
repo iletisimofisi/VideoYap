@@ -30,38 +30,38 @@ export function FeaturesSection() {
     {
       icon: <Brain className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
-      title: "Yapay Zeka Gücü",
-      description: "Gelişmiş yapay zeka modelleri ile metinlerinizi etkileyici videolara dönüştürün."
+      title: "Etkileşimli Eğitim",
+      description: "İlk kez kullananlar için adım adım anlatımlı oyunlaştırılmış eğitim sistemi."
     },
     {
       icon: <Users className="w-6 h-6 text-secondary" />,
       bgColor: "bg-secondary bg-opacity-20",
-      title: "Kolay Kullanım",
-      description: "Basit ve anlaşılır arayüz ile yaşlılar ve çocuklar dahil herkes kolayca kullanabilir."
+      title: "Kişiselleştirilmiş Karşılama",
+      description: "Kullanıcının adı ve son projelerinin yer aldığı kişiselleştirilmiş karşılama ekranı."
     },
     {
       icon: <Zap className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
-      title: "Hızlı Oluşturma",
-      description: "Saniyeler içinde metninizi profesyonel görünümlü videolara dönüştürün."
+      title: "Animasyonlu Geçişler",
+      description: "Kullanıcı deneyimini iyileştirmek için animasyonlu yükleme geçişleri."
     },
     {
       icon: <Video className="w-6 h-6 text-secondary" />,
       bgColor: "bg-secondary bg-opacity-20",
-      title: "Çeşitli Formatlar",
-      description: "Youtube shorts, TikTok, Instagram ve diğer platformlar için uygun boyutlarda videolar."
+      title: "Gelişmiş Video Düzenleme",
+      description: "Gelişmiş video düzenleme araçları ve şablonlarıyla profesyonel sonuçlar."
     },
     {
       icon: <Gift className="w-6 h-6 text-primary" />,
       bgColor: "bg-primary bg-opacity-20",
-      title: "Ücretsiz Kullanım",
-      description: "Ücretsiz üyelik sistemi ile puan kazanın ve daha fazla video oluşturun."
+      title: "AI Metin İşleme",
+      description: "Gelişmiş yapay zeka metin işleme yetenekleriyle içerik kalitesini artırın."
     },
     {
       icon: <Images className="w-6 h-6 text-secondary" />,
       bgColor: "bg-secondary bg-opacity-20",
-      title: "Hazır Medya",
-      description: "Ücretsiz stok video ve görseller ile içeriklerinizi zenginleştirin."
+      title: "PostgreSQL Entegrasyonu",
+      description: "Kullanıcı verileri ve içerik depolama için güçlü PostgreSQL veritabanı altyapısı."
     }
   ];
 
