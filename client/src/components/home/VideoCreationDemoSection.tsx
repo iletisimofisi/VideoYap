@@ -119,7 +119,7 @@ export function VideoCreationDemoSection() {
               id="videoText"
               value={videoText}
               onChange={(e) => setVideoText(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-darkBg border border-darkBorder text-white focus:border-primary focus:outline-none min-h-[120px]" 
+              className="w-full px-4 py-3 rounded-lg bg-darkBg border border-darkBorder text-lightText focus:border-primary focus:outline-none min-h-[120px] placeholder:text-gray-500" 
               placeholder="Videonuzda gösterilmesini istediğiniz metni buraya yazın..."
             />
             <p className="text-sm text-mediumText mt-2">

@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export function LoginModal() {
   const { closeLoginModal, openTermsModal } = useModal();
-  const { login } = useAuth();
+  const { login, socialLogin } = useAuth();
   const { toast } = useToast();
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,15 +52,11 @@ export function LoginModal() {
     }
   };
 
-  const socialLogin = async (provider: string) => {
+  const handleSocialLogin = async (provider: string) => {
     try {
       // In a real app, this would authenticate with the provider
-      await login(`${provider}@example.com`, "password");
+      await socialLogin(provider);
       closeLoginModal();
-      toast({
-        title: "Sosyal giriş başarılı",
-        description: `${provider} ile giriş yapıldı.`,
-      });
     } catch (error) {
       toast({
         title: "Giriş başarısız",
@@ -89,13 +85,13 @@ export function LoginModal() {
         <div className="space-y-4 mb-6">
           <SocialLoginButton 
             provider="Google" 
-            onClick={() => socialLogin("Google")}
+            onClick={() => handleSocialLogin("Google")}
             className="bg-google"
             icon="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
           />
           <SocialLoginButton 
             provider="Facebook" 
-            onClick={() => socialLogin("Facebook")}
+            onClick={() => handleSocialLogin("Facebook")}
             className="bg-facebook"
             icon="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
           />
