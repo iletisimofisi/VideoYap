@@ -34,7 +34,7 @@ export function HowItWorksSection() {
   const steps = [
     {
       number: 1,
-      icon: "edit",
+      icon: "text_fields",
       bgColor: "bg-primary bg-opacity-20",
       iconColor: "text-primary",
       title: "Metninizi Yazın",
@@ -42,7 +42,7 @@ export function HowItWorksSection() {
     },
     {
       number: 2,
-      icon: "settings",
+      icon: "palette",
       bgColor: "bg-secondary bg-opacity-20",
       iconColor: "text-secondary",
       title: "Ayarları Seçin",
@@ -50,7 +50,7 @@ export function HowItWorksSection() {
     },
     {
       number: 3,
-      icon: "download",
+      icon: "movie",
       bgColor: "bg-primary bg-opacity-20",
       iconColor: "text-primary",
       title: "Videonuzu İndirin",

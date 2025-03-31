@@ -25,42 +25,42 @@ function FeatureCard({ icon, iconColor, bgColor, title, description }: FeaturePr
 export function FeaturesSection() {
   const features = [
     {
-      icon: "auto_awesome",
+      icon: "smart_toy",
       iconColor: "text-primary",
       bgColor: "bg-primary bg-opacity-20",
       title: "Yapay Zeka Gücü",
       description: "Gelişmiş yapay zeka modelleri ile metinlerinizi etkileyici videolara dönüştürün."
     },
     {
-      icon: "touch_app",
+      icon: "elderly",
       iconColor: "text-secondary",
       bgColor: "bg-secondary bg-opacity-20",
       title: "Kolay Kullanım",
       description: "Basit ve anlaşılır arayüz ile yaşlılar ve çocuklar dahil herkes kolayca kullanabilir."
     },
     {
-      icon: "schedule",
+      icon: "bolt",
       iconColor: "text-primary",
       bgColor: "bg-primary bg-opacity-20",
       title: "Hızlı Oluşturma",
       description: "Saniyeler içinde metninizi profesyonel görünümlü videolara dönüştürün."
     },
     {
-      icon: "aspect_ratio",
+      icon: "video_library",
       iconColor: "text-secondary",
       bgColor: "bg-secondary bg-opacity-20",
       title: "Çeşitli Formatlar",
       description: "Youtube shorts, TikTok, Instagram ve diğer platformlar için uygun boyutlarda videolar."
     },
     {
-      icon: "monetization_on",
+      icon: "card_giftcard",
       iconColor: "text-primary",
       bgColor: "bg-primary bg-opacity-20",
       title: "Ücretsiz Kullanım",
       description: "Ücretsiz üyelik sistemi ile puan kazanın ve daha fazla video oluşturun."
     },
     {
-      icon: "photo_library",
+      icon: "collections",
       iconColor: "text-secondary",
       bgColor: "bg-secondary bg-opacity-20",
       title: "Hazır Medya",
