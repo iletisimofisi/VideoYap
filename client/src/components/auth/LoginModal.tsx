@@ -102,14 +102,12 @@ export function LoginModal() {
             provider="Google" 
             onClick={() => handleSocialLogin("Google")}
             className="bg-white/10 hover:bg-white/20 text-white border border-white/20"
-            icon="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
             disabled={isAuthLoading}
           />
           <SocialLoginButton 
             provider="Facebook" 
             onClick={() => handleSocialLogin("Facebook")}
             className="bg-[#1877F2]/10 hover:bg-[#1877F2]/20 text-white border border-[#1877F2]/30"
-            icon="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
             disabled={isAuthLoading}
           />
           <div className="flex items-center my-4">

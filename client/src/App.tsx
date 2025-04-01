@@ -27,6 +27,7 @@ const PrivacyPolicy = lazy(() => import("@/pages/static/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/static/TermsOfService"));
 const CareersPage = lazy(() => import("@/pages/static/CareersPage"));
 const ContactPage = lazy(() => import("@/pages/static/ContactPage"));
+const TestFirebasePage = lazy(() => import("@/pages/static/TestFirebasePage"));
 
 function Router() {
   const loading = <div className="p-12 text-center">Yükleniyor...</div>;
@@ -76,6 +77,12 @@ function Router() {
       <Route path="/iletisim">
         <Suspense fallback={loading}>
           <ContactPage />
+        </Suspense>
+      </Route>
+      
+      <Route path="/test-firebase">
+        <Suspense fallback={loading}>
+          <TestFirebasePage />
         </Suspense>
       </Route>
       

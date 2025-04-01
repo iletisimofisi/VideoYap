@@ -218,6 +218,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(`${provider} ile giriş başlatılamadı.`);
       }
       
+      // Önemli: Yönlendirme durumunda bile yükleme durumunu kapatalım
+      // çünkü yönlendirme sonrası sayfanın yeniden yüklenmesi muhtemel
+      setIsAuthLoading(false);
+      
       // Burada return kullanmaya gerek yok çünkü kullanıcı yönlendiriliyor
     } catch (error) {
       console.error(`${provider} login failed`, error);
