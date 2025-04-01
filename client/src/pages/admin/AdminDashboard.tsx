@@ -164,6 +164,12 @@ export default function AdminDashboard() {
             <Database className="w-4 h-4 mr-2" />
             Sistem
           </TabsTrigger>
+          <TabsTrigger value="site" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            Site Yönetimi
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
@@ -891,6 +897,726 @@ export default function AdminDashboard() {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="site">
+          <Card className="bg-darkSurface border-darkBorder p-6">
+            <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+              <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+              Site İçerik Yönetimi
+            </h3>
+            
+            <div className="mb-6">
+              <Tabs defaultValue="header">
+                <TabsList className="bg-darkBg border-darkBorder mb-4">
+                  <TabsTrigger value="header">Header</TabsTrigger>
+                  <TabsTrigger value="footer">Footer</TabsTrigger>
+                  <TabsTrigger value="hero">Ana Sayfa Hero</TabsTrigger>
+                  <TabsTrigger value="features">Özellikler</TabsTrigger>
+                  <TabsTrigger value="howItWorks">Nasıl Çalışır</TabsTrigger>
+                  <TabsTrigger value="testimonials">Referanslar</TabsTrigger>
+                  <TabsTrigger value="theme">Tema</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="header" className="space-y-4">
+                  <Card className="bg-darkBg border-darkBorder p-4">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-white text-lg">Logo ve Navigasyon Ayarları</CardTitle>
+                      <CardDescription>Site üst bölümü görünüm ayarlarını yapılandırın</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Site Logosu</label>
+                          <div className="flex items-center space-x-4">
+                            <div className="w-16 h-16 bg-darkSurface border border-dashed border-darkBorder rounded flex items-center justify-center text-gray-400">
+                              Logo
+                            </div>
+                            <div>
+                              <Button variant="outline" size="sm" className="mb-2">
+                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                </svg>
+                                Yükle
+                              </Button>
+                              <Button variant="ghost" size="sm" className="text-red-500">
+                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                                Kaldır
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Site Adı</label>
+                          <input type="text" value="VideoYap" className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Navigasyon Menü Öğeleri</label>
+                        <div className="space-y-2">
+                          {["Ana Sayfa", "Nasıl Çalışır?", "Örnekler", "Yardım"].map((item, index) => (
+                            <div key={index} className="flex items-center justify-between p-3 bg-darkSurface border border-darkBorder rounded-md">
+                              <div className="flex items-center">
+                                <svg className="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                                </svg>
+                                <input type="text" value={item} className="bg-transparent border-none text-white focus:outline-none focus:ring-0" />
+                              </div>
+                              <div className="flex space-x-2">
+                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                  </svg>
+                                </Button>
+                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                  </svg>
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <Button className="mt-2" variant="outline" size="sm">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                          </svg>
+                          Menü Öğesi Ekle
+                        </Button>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <Button className="bg-primary">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          Değişiklikleri Kaydet
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                
+                <TabsContent value="footer" className="space-y-4">
+                  <Card className="bg-darkBg border-darkBorder p-4">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-white text-lg">Footer Ayarları</CardTitle>
+                      <CardDescription>Site alt bölümü görünüm ayarlarını yapılandırın</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Footer Açıklaması</label>
+                        <textarea 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white h-20"
+                          defaultValue="VideoYap, Türkçe içeriklerinizi kolayca profesyonel videolara dönüştürmenizi sağlayan yapay zeka destekli bir platformdur."
+                        ></textarea>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {['Şirket', 'Destek', 'Yasal'].map((section, sectionIndex) => (
+                          <div key={sectionIndex}>
+                            <label className="block text-sm font-medium text-gray-400 mb-1">{section} Menüsü</label>
+                            <input 
+                              type="text" 
+                              value={section} 
+                              className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white mb-2" 
+                            />
+                            
+                            <div className="space-y-2">
+                              {[1, 2, 3].map((item) => (
+                                <div key={item} className="flex items-center justify-between p-2 bg-darkSurface border border-darkBorder rounded-md">
+                                  <div className="flex-1 grid grid-cols-2 gap-2">
+                                    <input 
+                                      type="text" 
+                                      placeholder="Ad" 
+                                      defaultValue={`${section} Öğe ${item}`}
+                                      className="bg-transparent border-none text-white focus:outline-none focus:ring-0" 
+                                    />
+                                    <input 
+                                      type="text" 
+                                      placeholder="URL" 
+                                      defaultValue="#"
+                                      className="bg-transparent border-none text-white focus:outline-none focus:ring-0" 
+                                    />
+                                  </div>
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            <Button className="mt-2" variant="outline" size="sm">
+                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                              </svg>
+                              Öğe Ekle
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Sosyal Medya Bağlantıları</label>
+                        <div className="space-y-2">
+                          {[
+                            { name: 'Twitter', url: 'https://twitter.com' },
+                            { name: 'Facebook', url: 'https://facebook.com' },
+                            { name: 'Instagram', url: 'https://instagram.com' },
+                            { name: 'YouTube', url: 'https://youtube.com' }
+                          ].map((social, index) => (
+                            <div key={index} className="flex items-center justify-between p-2 bg-darkSurface border border-darkBorder rounded-md">
+                              <div className="flex-1 grid grid-cols-2 gap-2">
+                                <input 
+                                  type="text" 
+                                  defaultValue={social.name}
+                                  className="bg-transparent border-none text-white focus:outline-none focus:ring-0" 
+                                />
+                                <input 
+                                  type="text" 
+                                  defaultValue={social.url}
+                                  className="bg-transparent border-none text-white focus:outline-none focus:ring-0" 
+                                />
+                              </div>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                        <Button className="mt-2" variant="outline" size="sm">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                          </svg>
+                          Sosyal Medya Ekle
+                        </Button>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Telif Hakkı Metni</label>
+                        <input 
+                          type="text" 
+                          defaultValue="© 2025 VideoYap. Tüm hakları saklıdır." 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                        />
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <Button className="bg-primary">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          Değişiklikleri Kaydet
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                
+                <TabsContent value="hero" className="space-y-4">
+                  <Card className="bg-darkBg border-darkBorder p-4">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-white text-lg">Ana Sayfa Hero Bölümü</CardTitle>
+                      <CardDescription>Ana sayfanın üst kısmındaki tanıtım bölümünü düzenleyin</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Ana Başlık</label>
+                          <input 
+                            type="text" 
+                            defaultValue="Metinlerinizi Profesyonel Videolara Dönüştürün" 
+                            className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Alt Başlık</label>
+                          <input 
+                            type="text" 
+                            defaultValue="Yapay zeka ile metin içeriklerinizi hemen videolara dönüştürün." 
+                            className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Açıklama Metni</label>
+                        <textarea 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white h-20"
+                          defaultValue="VideoYap ile içeriklerinizi saniyeler içinde etkileyici videolara dönüştürün. Metin girin, tarzı ve formatı seçin, yapay zeka sizin için profesyonel bir video oluştursun."
+                        ></textarea>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Birincil Buton Metni</label>
+                          <input 
+                            type="text" 
+                            defaultValue="Hemen Başla" 
+                            className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">İkincil Buton Metni</label>
+                          <input 
+                            type="text" 
+                            defaultValue="Nasıl Çalışır?" 
+                            className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Hero Görseli</label>
+                        <div className="flex items-center space-x-4">
+                          <div className="w-32 h-24 bg-darkSurface border border-dashed border-darkBorder rounded flex items-center justify-center text-gray-400">
+                            Görsel
+                          </div>
+                          <div>
+                            <Button variant="outline" size="sm" className="mb-2">
+                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                              </svg>
+                              Görsel Yükle
+                            </Button>
+                            <Button variant="ghost" size="sm" className="text-red-500">
+                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                              </svg>
+                              Kaldır
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <Button className="bg-primary">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          Değişiklikleri Kaydet
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                
+                <TabsContent value="features" className="space-y-4">
+                  <Card className="bg-darkBg border-darkBorder p-4">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-white text-lg">Özellikler Bölümü</CardTitle>
+                      <CardDescription>Site özellikler bölümünü düzenleyin</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Bölüm Başlığı</label>
+                        <input 
+                          type="text" 
+                          defaultValue="Öne Çıkan Özellikler" 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Bölüm Açıklaması</label>
+                        <textarea 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white h-20"
+                          defaultValue="VideoYap platformu, içeriklerinizi kolayca profesyonel videolara dönüştürmenizi sağlayan birçok özelliğe sahiptir."
+                        ></textarea>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Özellik Kartları</label>
+                        <div className="space-y-4">
+                          {[
+                            { title: "Kolay Kullanım", description: "Kullanıcı dostu arayüz ile herkes kolayca video oluşturabilir" },
+                            { title: "Geniş Format Seçenekleri", description: "İçeriğinize uygun çeşitli video formatları arasından seçim yapın" },
+                            { title: "Yapay Zeka Desteği", description: "İleri seviye yapay zeka ile kaliteli içerik üretimi" },
+                            { title: "Çoklu Dil Desteği", description: "Birden fazla dilde içerik oluşturma imkanı" },
+                            { title: "Otomatik Seslendirme", description: "Metinleriniz için otomatik seslendirme seçenekleri" },
+                            { title: "Hızlı Oluşturma", description: "Dakikalar içinde profesyonel videolar oluşturun" }
+                          ].map((feature, index) => (
+                            <div key={index} className="bg-darkSurface border border-darkBorder rounded-md p-4">
+                              <div className="flex justify-between items-start mb-2">
+                                <div className="flex items-center">
+                                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary mr-3">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                    </svg>
+                                  </div>
+                                  <input 
+                                    type="text" 
+                                    defaultValue={feature.title} 
+                                    className="text-white font-medium bg-transparent border-none focus:outline-none focus:ring-0" 
+                                  />
+                                </div>
+                                <div className="flex space-x-2">
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                    </svg>
+                                  </Button>
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                  </Button>
+                                </div>
+                              </div>
+                              <textarea 
+                                defaultValue={feature.description} 
+                                className="w-full px-0 py-1 bg-transparent border-none text-gray-400 focus:outline-none focus:ring-0"
+                              ></textarea>
+                            </div>
+                          ))}
+                        </div>
+                        <Button className="mt-3" variant="outline" size="sm">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                          </svg>
+                          Özellik Ekle
+                        </Button>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <Button className="bg-primary">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          Değişiklikleri Kaydet
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                
+                <TabsContent value="howItWorks" className="space-y-4">
+                  <Card className="bg-darkBg border-darkBorder p-4">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-white text-lg">Nasıl Çalışır Bölümü</CardTitle>
+                      <CardDescription>Nasıl çalışır bölümünü düzenleyin</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Bölüm Başlığı</label>
+                        <input 
+                          type="text" 
+                          defaultValue="VideoYap Nasıl Çalışır?" 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Bölüm Açıklaması</label>
+                        <textarea 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white h-20"
+                          defaultValue="VideoYap ile video oluşturmak çok kolay. Sadece birkaç adımda profesyonel videolar oluşturabilirsiniz."
+                        ></textarea>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Adım Kartları</label>
+                        <div className="space-y-4">
+                          {[
+                            { title: "Metin Girin", description: "Video için oluşturmak istediğiniz içeriği metin olarak girin" },
+                            { title: "Tarzı Seçin", description: "Videonuzun tarzını ve formatını seçin" },
+                            { title: "Oluşturun", description: "Yapay zeka teknolojisiyle metninizi videoya dönüştürün" },
+                            { title: "Paylaşın", description: "Oluşturulan videoyu indirin veya doğrudan paylaşın" }
+                          ].map((step, index) => (
+                            <div key={index} className="bg-darkSurface border border-darkBorder rounded-md p-4">
+                              <div className="flex justify-between items-start mb-2">
+                                <div className="flex items-center">
+                                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary mr-3">
+                                    {index + 1}
+                                  </div>
+                                  <input 
+                                    type="text" 
+                                    defaultValue={step.title} 
+                                    className="text-white font-medium bg-transparent border-none focus:outline-none focus:ring-0" 
+                                  />
+                                </div>
+                                <div className="flex space-x-2">
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                    </svg>
+                                  </Button>
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                  </Button>
+                                </div>
+                              </div>
+                              <textarea 
+                                defaultValue={step.description} 
+                                className="w-full px-0 py-1 bg-transparent border-none text-gray-400 focus:outline-none focus:ring-0"
+                              ></textarea>
+                            </div>
+                          ))}
+                        </div>
+                        <Button className="mt-3" variant="outline" size="sm">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                          </svg>
+                          Adım Ekle
+                        </Button>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <Button className="bg-primary">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          Değişiklikleri Kaydet
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                
+                <TabsContent value="testimonials" className="space-y-4">
+                  <Card className="bg-darkBg border-darkBorder p-4">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-white text-lg">Referanslar Bölümü</CardTitle>
+                      <CardDescription>Müşteri referansları bölümünü düzenleyin</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Bölüm Başlığı</label>
+                        <input 
+                          type="text" 
+                          defaultValue="Kullanıcılarımız Ne Diyor?" 
+                          className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white" 
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Referanslar</label>
+                        <div className="space-y-4">
+                          {[
+                            { 
+                              name: "Ayşe Y.",
+                              position: "İçerik Üreticisi",
+                              content: "VideoYap sayesinde içeriklerimi çok daha hızlı ve profesyonel videolara dönüştürebiliyorum. Kesinlikle tavsiye ederim!"
+                            },
+                            { 
+                              name: "Mehmet K.",
+                              position: "E-ticaret Sahibi",
+                              content: "Ürün tanıtım videolarımızı artık çok daha kolay oluşturuyoruz. Müşteri dönüşümlerimiz arttı!"
+                            },
+                            { 
+                              name: "Zeynep A.",
+                              position: "Eğitimci",
+                              content: "Öğrencilerim için ders videoları hazırlamak artık çok daha kolay. Hem zamandan tasarruf sağlıyorum hem de daha kaliteli içerik üretiyorum."
+                            }
+                          ].map((testimonial, index) => (
+                            <div key={index} className="bg-darkSurface border border-darkBorder rounded-md p-4">
+                              <div className="flex justify-between items-start mb-3">
+                                <div className="flex items-center">
+                                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-primary mr-3">
+                                    {testimonial.name.charAt(0)}
+                                  </div>
+                                  <div>
+                                    <input 
+                                      type="text" 
+                                      defaultValue={testimonial.name} 
+                                      className="text-white font-medium bg-transparent border-none focus:outline-none focus:ring-0 block" 
+                                    />
+                                    <input 
+                                      type="text" 
+                                      defaultValue={testimonial.position} 
+                                      className="text-gray-400 text-sm bg-transparent border-none focus:outline-none focus:ring-0 block" 
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex space-x-2">
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                  </Button>
+                                </div>
+                              </div>
+                              <textarea 
+                                defaultValue={testimonial.content} 
+                                className="w-full px-0 py-1 bg-transparent border-none text-gray-300 focus:outline-none focus:ring-0 h-20"
+                              ></textarea>
+                              <div className="flex mt-2">
+                                <Button variant="outline" size="sm">
+                                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                  </svg>
+                                  Resim Ekle
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <Button className="mt-3" variant="outline" size="sm">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                          </svg>
+                          Referans Ekle
+                        </Button>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <Button className="bg-primary">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          Değişiklikleri Kaydet
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                
+                <TabsContent value="theme" className="space-y-4">
+                  <Card className="bg-darkBg border-darkBorder p-4">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-white text-lg">Site Teması</CardTitle>
+                      <CardDescription>Site renklerini ve görünümünü özelleştirin</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Ana Renk</label>
+                          <div className="flex">
+                            <div className="w-10 h-10 rounded-l-md bg-primary border border-darkBorder"></div>
+                            <input 
+                              type="text" 
+                              defaultValue="#9c27b0" 
+                              className="flex-1 px-3 py-2 bg-darkSurface border border-l-0 border-darkBorder rounded-r-md text-white" 
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Arkaplan Rengi</label>
+                          <div className="flex">
+                            <div className="w-10 h-10 rounded-l-md bg-darkBg border border-darkBorder"></div>
+                            <input 
+                              type="text" 
+                              defaultValue="#121212" 
+                              className="flex-1 px-3 py-2 bg-darkSurface border border-l-0 border-darkBorder rounded-r-md text-white" 
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Metin Rengi</label>
+                          <div className="flex">
+                            <div className="w-10 h-10 rounded-l-md bg-white border border-darkBorder"></div>
+                            <input 
+                              type="text" 
+                              defaultValue="#ffffff" 
+                              className="flex-1 px-3 py-2 bg-darkSurface border border-l-0 border-darkBorder rounded-r-md text-white" 
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-1">Vurgu Rengi</label>
+                          <div className="flex">
+                            <div className="w-10 h-10 rounded-l-md bg-primary/20 border border-darkBorder"></div>
+                            <input 
+                              type="text" 
+                              defaultValue="#e1bee7" 
+                              className="flex-1 px-3 py-2 bg-darkSurface border border-l-0 border-darkBorder rounded-r-md text-white" 
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Tema Modu</label>
+                        <div className="flex space-x-4">
+                          <div className="flex items-center">
+                            <input type="radio" id="light" name="theme" className="mr-2" />
+                            <label htmlFor="light" className="text-white">Açık Tema</label>
+                          </div>
+                          <div className="flex items-center">
+                            <input type="radio" id="dark" name="theme" className="mr-2" checked />
+                            <label htmlFor="dark" className="text-white">Koyu Tema</label>
+                          </div>
+                          <div className="flex items-center">
+                            <input type="radio" id="auto" name="theme" className="mr-2" />
+                            <label htmlFor="auto" className="text-white">Otomatik (Sistem)</label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Köşe Yuvarlaklığı</label>
+                        <div className="flex items-center space-x-4">
+                          <input 
+                            type="range" 
+                            className="w-full h-2 bg-darkBg rounded-lg appearance-none cursor-pointer" 
+                            min="0" 
+                            max="20" 
+                            defaultValue="6"
+                          />
+                          <span className="text-white">6px</span>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Yazı Tipi</label>
+                        <select className="w-full px-3 py-2 bg-darkSurface border border-darkBorder rounded-md text-white">
+                          <option>Inter</option>
+                          <option>Roboto</option>
+                          <option>Open Sans</option>
+                          <option>Montserrat</option>
+                          <option>Poppins</option>
+                        </select>
+                      </div>
+                      
+                      <div>
+                        <div className="p-6 bg-darkSurface border border-darkBorder rounded-md">
+                          <h3 className="text-white text-lg font-medium mb-2">Tema Önizleme</h3>
+                          <div className="flex space-x-2 mb-4">
+                            <Button className="bg-primary text-white">Birincil Buton</Button>
+                            <Button variant="outline">İkincil Buton</Button>
+                            <Button variant="ghost">Hayalet Buton</Button>
+                          </div>
+                          <div className="flex space-x-4 mb-4">
+                            <div className="w-16 h-8 rounded bg-darkBg border border-darkBorder flex items-center justify-center text-xs text-gray-400">Arkaplan</div>
+                            <div className="w-16 h-8 rounded bg-primary flex items-center justify-center text-xs text-white">Ana Renk</div>
+                            <div className="w-16 h-8 rounded bg-primary/20 flex items-center justify-center text-xs text-primary">Vurgu</div>
+                          </div>
+                          <p className="text-white mb-1">Normal Metin</p>
+                          <p className="text-gray-400 text-sm">İkincil Metin</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-end">
+                        <Button className="bg-primary">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          Tema Ayarlarını Kaydet
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
             </div>
           </Card>
         </TabsContent>
