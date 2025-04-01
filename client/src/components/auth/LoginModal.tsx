@@ -11,7 +11,7 @@ import { X, AlertCircle } from "lucide-react";
 
 export function LoginModal() {
   const { closeLoginModal, openTermsModal } = useModal();
-  const { login, socialLogin } = useAuth();
+  const { login, socialLogin, isAuthLoading } = useAuth();
   const { toast } = useToast();
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,7 +19,6 @@ export function LoginModal() {
     password: "",
     rememberMe: false
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +39,6 @@ export function LoginModal() {
       openTermsModal();
     } else {
       try {
-        setIsLoading(true);
         setError("");
         // For login, attempt to login directly
         await login(formData.email, formData.password);
@@ -56,15 +54,12 @@ export function LoginModal() {
           description: "E-posta veya şifre hatalı.",
           variant: "destructive",
         });
-      } finally {
-        setIsLoading(false);
       }
     }
   };
 
   const handleSocialLogin = async (provider: string) => {
     try {
-      setIsLoading(true);
       setError("");
       // Firebase ile sosyal giriş yap
       await socialLogin(provider);
@@ -76,8 +71,6 @@ export function LoginModal() {
         description: `${provider} ile giriş yapılamadı.`,
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -110,12 +103,14 @@ export function LoginModal() {
             onClick={() => handleSocialLogin("Google")}
             className="bg-white/10 hover:bg-white/20 text-white border border-white/20"
             icon="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            disabled={isAuthLoading}
           />
           <SocialLoginButton 
             provider="Facebook" 
             onClick={() => handleSocialLogin("Facebook")}
             className="bg-[#1877F2]/10 hover:bg-[#1877F2]/20 text-white border border-[#1877F2]/30"
             icon="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+            disabled={isAuthLoading}
           />
           <div className="flex items-center my-4">
             <div className="flex-grow border-t border-darkBorder"></div>
@@ -134,7 +129,7 @@ export function LoginModal() {
               value={formData.email}
               onChange={handleChange}
               required
-              disabled={isLoading}
+              disabled={isAuthLoading}
               placeholder="ornek@email.com"
               className="w-full px-4 py-3 rounded-lg bg-darkBg border border-darkBorder text-lightText focus-visible:ring-primary focus-visible:border-primary"
             />
@@ -148,7 +143,7 @@ export function LoginModal() {
               value={formData.password}
               onChange={handleChange}
               required
-              disabled={isLoading}
+              disabled={isAuthLoading}
               placeholder="••••••••"
               className="w-full px-4 py-3 rounded-lg bg-darkBg border border-darkBorder text-lightText focus-visible:ring-primary focus-visible:border-primary"
             />
@@ -162,7 +157,7 @@ export function LoginModal() {
                 onCheckedChange={(checked) => 
                   setFormData({...formData, rememberMe: checked as boolean})
                 }
-                disabled={isLoading}
+                disabled={isAuthLoading}
                 className="w-4 h-4 text-primary border-darkBorder"
               />
               <Label htmlFor="rememberMe" className="ml-2 text-mediumText text-sm">Beni hatırla</Label>
@@ -172,9 +167,9 @@ export function LoginModal() {
           <Button 
             type="submit" 
             className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-medium shadow-none hover:shadow-[0_0_15px_rgba(156,39,176,0.5)] transition-all"
-            disabled={isLoading}
+            disabled={isAuthLoading}
           >
-            {isLoading ? (
+            {isAuthLoading ? (
               <span className="flex items-center justify-center">
                 <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -198,7 +193,7 @@ export function LoginModal() {
                   setError("");
                 }} 
                 className="text-primary hover:underline ml-1 font-medium"
-                disabled={isLoading}
+                disabled={isAuthLoading}
               >
                 Giriş Yapın
               </button>
@@ -212,7 +207,7 @@ export function LoginModal() {
                   setError("");
                 }} 
                 className="text-primary hover:underline ml-1 font-medium"
-                disabled={isLoading}
+                disabled={isAuthLoading}
               >
                 Ücretsiz Kaydolun
               </button>

@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
-import { useToast } from "@/hooks/use-toast";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  FacebookAuthProvider, 
+  signInWithRedirect, 
+  getRedirectResult 
+} from "firebase/auth";
 
 // Firebase yapılandırması
 const firebaseConfig = {
@@ -21,37 +26,62 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const facebookProvider = new FacebookAuthProvider();
 
-// Popupla sosyal giriş için fonksiyon
-export const signInWithGoogle = async () => {
+// Yönlendirme sonucunu işleyen fonksiyon
+export const handleRedirectResult = async () => {
   try {
-    const result = await signInWithPopup(auth, googleProvider);
-    return {
-      user: result.user,
-      success: true
+    // Yönlendirme sonucunu kontrol et
+    const result = await getRedirectResult(auth);
+    
+    if (result) {
+      // Başarılı giriş
+      return {
+        user: result.user,
+        success: true
+      };
+    }
+    
+    // Henüz bir yönlendirme sonucu yok
+    return { 
+      user: null, 
+      success: false, 
+      pending: true 
     };
   } catch (error) {
-    console.error("Google ile giriş yaparken hata oluştu:", error);
+    console.error("Yönlendirme sonucu işlenirken hata oluştu:", error);
     return {
       user: null,
       success: false,
-      error
+      error,
+      pending: false
+    };
+  }
+};
+
+// Redirect ile sosyal giriş için fonksiyonlar
+export const signInWithGoogle = async () => {
+  try {
+    await signInWithRedirect(auth, googleProvider);
+    return { success: true, pending: true };
+  } catch (error) {
+    console.error("Google ile giriş yaparken hata oluştu:", error);
+    return {
+      success: false,
+      error,
+      pending: false
     };
   }
 };
 
 export const signInWithFacebook = async () => {
   try {
-    const result = await signInWithPopup(auth, facebookProvider);
-    return {
-      user: result.user,
-      success: true
-    };
+    await signInWithRedirect(auth, facebookProvider);
+    return { success: true, pending: true };
   } catch (error) {
     console.error("Facebook ile giriş yaparken hata oluştu:", error);
     return {
-      user: null,
       success: false,
-      error
+      error,
+      pending: false
     };
   }
 };
