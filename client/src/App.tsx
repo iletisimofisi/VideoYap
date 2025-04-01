@@ -14,6 +14,7 @@ import { Footer } from "@/components/layouts/Footer";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { TermsOfServiceModal } from "@/components/auth/TermsOfServiceModal";
 import { useModal } from "@/context/ModalContext";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 // Admin Pages
 const AdminDashboard = lazy(() => import("@/pages/admin/AdminDashboard"));
@@ -94,6 +95,7 @@ function App() {
         <Footer />
         {isLoginModalOpen && <LoginModal />}
         {isTermsModalOpen && <TermsOfServiceModal />}
+        <ScrollToTop />
         <Toaster />
       </div>
     </QueryClientProvider>
