@@ -61,10 +61,25 @@ export function LoginModal() {
   const handleSocialLogin = async (provider: string) => {
     try {
       setError("");
+      // Yükleniyor durumunu aktif et
+      setIsLoading(true);
+      
       // Firebase ile sosyal giriş yap
       await socialLogin(provider);
+      
+      // Yükleniyor durumunu kapat (yönlendirme öncesi kullanıcıya geri bildirim)
+      setIsLoading(false);
+      
+      toast({
+        title: "Yönlendiriliyor",
+        description: `${provider} ile giriş için yönlendiriliyor...`,
+      });
+      
+      // Yönlendirme başladığında modalı kapat
+      // (kullanıcı geri döndüğünde sayfanın yüklenmesi muhtemel, yeni bir state ile işlem yapmaya gerek yok)
       closeLoginModal();
     } catch (error) {
+      setIsLoading(false);
       setError(`${provider} ile giriş yapılamadı. Lütfen tekrar deneyin.`);
       toast({
         title: "Giriş başarısız",
@@ -73,6 +88,9 @@ export function LoginModal() {
       });
     }
   };
+  
+  // Yükleniyor durumu için yerel durum
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
@@ -102,13 +120,13 @@ export function LoginModal() {
             provider="Google" 
             onClick={() => handleSocialLogin("Google")}
             className="bg-white/10 hover:bg-white/20 text-white border border-white/20"
-            disabled={isAuthLoading}
+            disabled={isAuthLoading || isLoading}
           />
           <SocialLoginButton 
             provider="Facebook" 
             onClick={() => handleSocialLogin("Facebook")}
             className="bg-[#1877F2]/10 hover:bg-[#1877F2]/20 text-white border border-[#1877F2]/30"
-            disabled={isAuthLoading}
+            disabled={isAuthLoading || isLoading}
           />
           <div className="flex items-center my-4">
             <div className="flex-grow border-t border-darkBorder"></div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { auth, signInWithGoogle, signInWithFacebook, handleRedirectResult } from "@/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { auth, googleProvider, facebookProvider, handleRedirectResult } from "@/lib/firebase";
+import { onAuthStateChanged, signInWithRedirect } from "firebase/auth";
 
 export default function TestFirebasePage() {
   const [firebaseStatus, setFirebaseStatus] = useState("Firebase durumu kontrol ediliyor...");
@@ -82,17 +82,22 @@ export default function TestFirebasePage() {
       setError(null);
       addLog("Google ile giriş başlatılıyor...");
       console.log("Google ile giriş başlatılıyor...");
-      const result = await signInWithGoogle();
-      console.log("Google giriş işlemi sonucu:", result);
-      addLog(`Google giriş isteği sonucu: ${JSON.stringify(result)}`);
       
-      if (result.error && typeof result.error === 'object' && 'message' in result.error) {
-        setError(`Hata: ${result.error.message}`);
-        addLog(`Google giriş hatası: ${result.error.message}`);
+      // Debug için önemli bilgileri göster
+      console.log("Auth nesnesi mevcut:", !!auth, "Google Provider mevcut:", !!googleProvider);
+      
+      // Doğrudan Firebase signInWithRedirect kullanarak giriş yap
+      try {
+        await signInWithRedirect(auth, googleProvider);
+        addLog("Google yönlendirmesi başlatıldı");
+      } catch (innerErr) {
+        console.error("Google ile giriş hatası:", innerErr);
+        addLog(`Google yönlendirme hatası: ${innerErr instanceof Error ? innerErr.message : String(innerErr)}`);
+        setError(innerErr instanceof Error ? innerErr.message : String(innerErr));
       }
     } catch (err) {
-      console.error("Google ile giriş hatası:", err);
-      addLog(`Google giriş exception: ${err instanceof Error ? err.message : String(err)}`);
+      console.error("Google ile giriş hatası (dış try-catch):", err);
+      addLog(`Google giriş exception (dış): ${err instanceof Error ? err.message : String(err)}`);
       setError(err instanceof Error ? err.message : String(err));
     }
   };
@@ -102,17 +107,22 @@ export default function TestFirebasePage() {
       setError(null);
       addLog("Facebook ile giriş başlatılıyor...");
       console.log("Facebook ile giriş başlatılıyor...");
-      const result = await signInWithFacebook();
-      console.log("Facebook giriş işlemi sonucu:", result);
-      addLog(`Facebook giriş isteği sonucu: ${JSON.stringify(result)}`);
       
-      if (result.error && typeof result.error === 'object' && 'message' in result.error) {
-        setError(`Hata: ${result.error.message}`);
-        addLog(`Facebook giriş hatası: ${result.error.message}`);
+      // Debug için önemli bilgileri göster
+      console.log("Auth nesnesi mevcut:", !!auth, "Facebook Provider mevcut:", !!facebookProvider);
+      
+      // Doğrudan Firebase signInWithRedirect kullanarak giriş yap
+      try {
+        await signInWithRedirect(auth, facebookProvider);
+        addLog("Facebook yönlendirmesi başlatıldı");
+      } catch (innerErr) {
+        console.error("Facebook ile giriş hatası:", innerErr);
+        addLog(`Facebook yönlendirme hatası: ${innerErr instanceof Error ? innerErr.message : String(innerErr)}`);
+        setError(innerErr instanceof Error ? innerErr.message : String(innerErr));
       }
     } catch (err) {
-      console.error("Facebook ile giriş hatası:", err);
-      addLog(`Facebook giriş exception: ${err instanceof Error ? err.message : String(err)}`);
+      console.error("Facebook ile giriş hatası (dış try-catch):", err);
+      addLog(`Facebook giriş exception (dış): ${err instanceof Error ? err.message : String(err)}`);
       setError(err instanceof Error ? err.message : String(err));
     }
   };
