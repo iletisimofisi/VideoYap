@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Clapperboard, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,7 +10,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <span className="material-icons text-primary text-3xl">movie_filter</span>
+              <Clapperboard size={28} className="text-primary" />
               <h1 className="text-2xl font-bold text-primary">VideoYap</h1>
             </Link>
             <p className="text-mediumText mb-4">
@@ -17,16 +18,16 @@ export function Footer() {
             </p>
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="text-mediumText hover:text-primary transition-colors" aria-label="Facebook">
-                <span className="material-icons">facebook</span>
+                <Facebook size={24} />
               </a>
               <a href="https://twitter.com" className="text-mediumText hover:text-primary transition-colors" aria-label="Twitter">
-                <span className="material-icons">twitter</span>
+                <Twitter size={24} />
               </a>
               <a href="https://instagram.com" className="text-mediumText hover:text-primary transition-colors" aria-label="Instagram">
-                <span className="material-icons">instagram</span>
+                <Instagram size={24} />
               </a>
               <a href="https://youtube.com" className="text-mediumText hover:text-primary transition-colors" aria-label="YouTube">
-                <span className="material-icons">youtube_activity</span>
+                <Youtube size={24} />
               </a>
             </div>
           </div>
