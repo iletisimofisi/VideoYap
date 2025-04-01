@@ -20,3 +20,46 @@
     color-scheme: dark;
   }
 }
+
+@layer components {
+  /* Sosyal giriş butonları için arka plan renkler */
+  .bg-google {
+    @apply bg-white/10 hover:bg-white/20 text-white border border-white/20;
+  }
+  
+  .bg-facebook {
+    @apply bg-[#1877F2]/10 hover:bg-[#1877F2]/20 text-white border border-[#1877F2]/30;
+  }
+  
+  /* Modal animasyonları */
+  .animate-in {
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+  }
+  
+  .fade-in {
+    animation-name: fadeIn;
+  }
+  
+  .zoom-in {
+    animation-name: zoomIn;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.95);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+}
