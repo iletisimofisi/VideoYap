@@ -37,8 +37,14 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
         <Link href="/#examples" onClick={onClose} className="hover:text-primary transition-colors text-lightText">
           Örnekler
         </Link>
-        <Link href="/#faq" onClick={onClose} className="hover:text-primary transition-colors text-lightText">
+        <Link href="/yardim" onClick={onClose} className="hover:text-primary transition-colors text-lightText">
           Yardım
+        </Link>
+        <Link href="/hakkimizda" onClick={onClose} className="hover:text-primary transition-colors text-lightText">
+          Hakkımızda
+        </Link>
+        <Link href="/iletisim" onClick={onClose} className="hover:text-primary transition-colors text-lightText">
+          İletişim
         </Link>
         {isLoggedIn ? (
           <>

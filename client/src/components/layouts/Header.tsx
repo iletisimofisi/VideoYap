@@ -41,7 +41,8 @@ export function Header() {
           <Link href="/" className="hover:text-primary transition-colors text-lightText font-medium">Ana Sayfa</Link>
           <Link href="/#how-it-works" className="hover:text-primary transition-colors text-lightText font-medium">Nasıl Çalışır?</Link>
           <Link href="/#examples" className="hover:text-primary transition-colors text-lightText font-medium">Örnekler</Link>
-          <Link href="/#faq" className="hover:text-primary transition-colors text-lightText font-medium">Yardım</Link>
+          <Link href="/yardim" className="hover:text-primary transition-colors text-lightText font-medium">Yardım</Link>
+          <Link href="/hakkimizda" className="hover:text-primary transition-colors text-lightText font-medium">Hakkımızda</Link>
           <div className="flex items-center space-x-3">
             {isLoggedIn && <NotificationsDropdown />}
             

@@ -39,29 +39,30 @@ export function Footer() {
               <li><Link href="/#features" className="text-mediumText hover:text-primary transition-colors">Özellikler</Link></li>
               <li><Link href="/#pricing" className="text-mediumText hover:text-primary transition-colors">Fiyatlandırma</Link></li>
               <li><Link href="/#examples" className="text-mediumText hover:text-primary transition-colors">Örnekler</Link></li>
-              <li><Link href="/#faq" className="text-mediumText hover:text-primary transition-colors">SSS</Link></li>
+              <li><Link href="/hakkimizda" className="text-mediumText hover:text-primary transition-colors">Hakkımızda</Link></li>
+              <li><Link href="/kariyer" className="text-mediumText hover:text-primary transition-colors">Kariyer</Link></li>
             </ul>
           </div>
           
           <div>
             <h3 className="text-lg font-semibold mb-4">Destek</h3>
             <ul className="space-y-2">
-              <li><Link href="/help" className="text-mediumText hover:text-primary transition-colors">Yardım Merkezi</Link></li>
-              <li><Link href="/contact" className="text-mediumText hover:text-primary transition-colors">İletişim</Link></li>
-              <li><Link href="/guide" className="text-mediumText hover:text-primary transition-colors">Kullanım Kılavuzu</Link></li>
-              <li><Link href="/tutorials" className="text-mediumText hover:text-primary transition-colors">Video Dersler</Link></li>
-              <li><Link href="/community" className="text-mediumText hover:text-primary transition-colors">Topluluk</Link></li>
+              <li><Link href="/yardim" className="text-mediumText hover:text-primary transition-colors">Yardım Merkezi</Link></li>
+              <li><Link href="/iletisim" className="text-mediumText hover:text-primary transition-colors">İletişim</Link></li>
+              <li><Link href="/yardim" className="text-mediumText hover:text-primary transition-colors">Kullanım Kılavuzu</Link></li>
+              <li><Link href="/yardim#getting-started" className="text-mediumText hover:text-primary transition-colors">Başlangıç Rehberi</Link></li>
+              <li><Link href="/yardim#videos" className="text-mediumText hover:text-primary transition-colors">Video Rehberi</Link></li>
             </ul>
           </div>
           
           <div>
             <h3 className="text-lg font-semibold mb-4">Yasal</h3>
             <ul className="space-y-2">
-              <li><Link href="/terms" className="text-mediumText hover:text-primary transition-colors">Kullanım Koşulları</Link></li>
-              <li><Link href="/privacy" className="text-mediumText hover:text-primary transition-colors">Gizlilik Politikası</Link></li>
-              <li><Link href="/cookies" className="text-mediumText hover:text-primary transition-colors">Çerez Politikası</Link></li>
-              <li><Link href="/kvkk" className="text-mediumText hover:text-primary transition-colors">KVKK</Link></li>
-              <li><Link href="/copyright" className="text-mediumText hover:text-primary transition-colors">Telif Hakkı</Link></li>
+              <li><Link href="/kullanim-sartlari" className="text-mediumText hover:text-primary transition-colors">Kullanım Koşulları</Link></li>
+              <li><Link href="/gizlilik-politikasi" className="text-mediumText hover:text-primary transition-colors">Gizlilik Politikası</Link></li>
+              <li><Link href="/gizlilik-politikasi#cookies" className="text-mediumText hover:text-primary transition-colors">Çerez Politikası</Link></li>
+              <li><Link href="/gizlilik-politikasi#children" className="text-mediumText hover:text-primary transition-colors">KVKK</Link></li>
+              <li><Link href="/kullanim-sartlari#content" className="text-mediumText hover:text-primary transition-colors">Telif Hakkı</Link></li>
             </ul>
           </div>
         </div>
@@ -71,10 +72,8 @@ export function Footer() {
             &copy; {currentYear} VideoYap. Tüm hakları saklıdır.
           </p>
           <div className="flex flex-wrap justify-center md:justify-end space-x-4">
-            <Link href="/tr" className="text-mediumText hover:text-primary transition-colors">Türkçe</Link>
-            <Link href="/en" className="text-mediumText hover:text-primary transition-colors">English</Link>
-            <Link href="/de" className="text-mediumText hover:text-primary transition-colors">Deutsch</Link>
-            <Link href="/es" className="text-mediumText hover:text-primary transition-colors">Español</Link>
+            <span className="text-primary">Türkçe</span>
+            <span className="text-mediumText hover:text-primary transition-colors opacity-50 cursor-not-allowed">English (Yakında)</span>
           </div>
         </div>
       </div>
