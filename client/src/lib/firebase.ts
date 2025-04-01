@@ -7,7 +7,7 @@ import {
   getRedirectResult 
 } from "firebase/auth";
 
-// Firebase yapılandırması
+// Firebase yapılandırması ve daha detaylı günlükleme
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: `${import.meta.env.VITE_FIREBASE_PROJECT_ID}.firebaseapp.com`,
@@ -16,11 +16,28 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Yapılandırmayı günlüğe kaydet (API anahtarını gizleyerek)
+console.log('Firebase yapılandırması:', {
+  authDomain: firebaseConfig.authDomain,
+  projectId: firebaseConfig.projectId,
+  storageBucket: firebaseConfig.storageBucket,
+  apiKeyExists: !!firebaseConfig.apiKey,
+  appIdExists: !!firebaseConfig.appId
+});
+
 // Firebase uygulamasını başlat
-const app = initializeApp(firebaseConfig);
+let firebaseApp;
+
+try {
+  firebaseApp = initializeApp(firebaseConfig);
+  console.log('Firebase başlatıldı:', firebaseApp.name);
+} catch (error) {
+  console.error('Firebase başlatma hatası:', error);
+  throw error;
+}
 
 // Kimlik doğrulama hizmetini al
-export const auth = getAuth(app);
+export const auth = getAuth(firebaseApp);
 
 // Sağlayıcıları hazırla
 export const googleProvider = new GoogleAuthProvider();
