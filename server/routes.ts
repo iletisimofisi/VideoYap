@@ -107,63 +107,79 @@ const registerVideoEndpoints = (app: Express) => {
         return res.status(401).json({ message: 'Authentication required' });
       }
 
-      const { text, duration, format, style } = req.body;
-      
-      // Validation
+      // Validation schema for video creation
       const schema = z.object({
-        text: z.string().min(1, 'Text is required'),
-        duration: z.string().regex(/^[135]$/, 'Duration must be 1, 3, or 5'),
-        format: z.string(),
-        style: z.string()
+        text: z.string().min(10, 'Metin en az 10 karakter olmalıdır.'),
+        title: z.string().optional(),
+        duration: z.number().int().min(30, 'Süre en az 30 saniye olmalıdır.'),
+        format: z.enum(['landscape', 'vertical', 'square', 'wide'], {
+          errorMap: () => ({ message: 'Geçersiz video formatı.' })
+        }),
+        aspectRatio: z.enum(['16:9', '9:16', '1:1', '21:9'], {
+          errorMap: () => ({ message: 'Geçersiz en-boy oranı.' })
+        }),
+        style: z.string().min(1, 'Stil seçimi zorunludur.'),
+        withVoice: z.boolean().default(true),
+        withMusic: z.boolean().default(true),
+        pointsCost: z.number().int().min(1, 'Puan maliyeti geçersiz.')
       });
       
       const result = schema.safeParse(req.body);
       if (!result.success) {
-        return res.status(400).json({ message: 'Invalid input', errors: result.error.flatten() });
+        return res.status(400).json({ 
+          message: 'Geçersiz girdi', 
+          errors: result.error.flatten() 
+        });
       }
-
-      // Calculate points needed
-      const pointsNeeded = Number(duration) === 1 ? 5 : Number(duration) === 3 ? 15 : 30;
+      
+      const { 
+        text, title, duration, format, aspectRatio, 
+        style, withVoice, withMusic, pointsCost 
+      } = result.data;
       
       // Check if user has enough points
       const user = req.user as any;
-      if (user.points < pointsNeeded) {
-        return res.status(400).json({ message: 'Not enough points' });
+      if (user.points < pointsCost) {
+        return res.status(400).json({ 
+          message: 'Yetersiz puan', 
+          required: pointsCost, 
+          available: user.points 
+        });
       }
       
       // Deduct points
-      await storage.updateUserPoints(user.id, user.points - pointsNeeded);
+      await storage.updateUserPoints(user.id, user.points - pointsCost);
       
-      // In a real app, this would integrate with an AI service
-      // For now, just simulate video creation
-      const videoId = Math.floor(Math.random() * 1000000);
-      const video = {
-        id: videoId,
+      // Create the video in storage
+      const video = await storage.saveVideo({
         userId: user.id,
+        title: title || `Video ${new Date().toLocaleDateString('tr-TR')}`,
         text,
-        duration: Number(duration),
+        duration,
         format,
+        aspectRatio,
         style,
-        status: 'processing',
-        createdAt: new Date().toISOString()
-      };
+        withVoice,
+        withMusic,
+        pointsCost,
+        status: 'processing'
+      });
       
-      await storage.saveVideo(video);
-      
-      // In a real app, this would trigger an async job
+      // In a real app, this would trigger an async job to an AI service
       // For now, simulate processing time
       setTimeout(async () => {
-        await storage.updateVideoStatus(videoId, 'completed');
+        await storage.updateVideoStatus(video.id, 'completed');
       }, 5000);
       
+      // Return response
       res.json({ 
-        message: 'Video creation started', 
+        message: 'Video oluşturma başlatıldı', 
         video,
-        remainingPoints: user.points - pointsNeeded
+        remainingPoints: user.points - pointsCost
       });
     } catch (error) {
       console.error('Video creation error:', error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ message: 'Sunucu hatası' });
     }
   });
 

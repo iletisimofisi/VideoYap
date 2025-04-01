@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useModal } from "@/context/ModalContext";
 import { MobileMenu } from "./MobileMenu";
 import { NotificationsDropdown } from "./NotificationsDropdown";
-import { Film, User, Menu, Clapperboard } from "lucide-react";
+import { Film, User, Menu, Clapperboard, Wand2 } from "lucide-react";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -48,6 +48,16 @@ export function Header() {
             
             {isLoggedIn ? (
               <div className="flex space-x-3">
+                <Link href="/video-olustur">
+                  <Button
+                    variant="outline"
+                    className="flex items-center text-mediumText hover:text-primary border-primary"
+                  >
+                    <Wand2 className="w-5 h-5 mr-1" />
+                    <span className="hidden lg:inline">Video Oluştur</span>
+                  </Button>
+                </Link>
+                
                 <Link href="/videos">
                   <Button
                     variant="ghost"

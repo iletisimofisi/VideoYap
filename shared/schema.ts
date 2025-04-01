@@ -15,11 +15,16 @@ export const users = pgTable("users", {
 export const videos = pgTable("videos", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
+  title: varchar("title", { length: 255 }),
   text: text("text").notNull(),
-  duration: integer("duration").notNull(), // in minutes (1, 3, 5)
-  format: text("format").notNull(), // '16:9', '9:16', '4:5', etc.
-  style: text("style").notNull(), // 'Modern', 'Kurumsal', 'Eğlenceli', etc.
-  status: text("status").notNull().default('processing'), // 'processing', 'completed', 'failed'
+  duration: integer("duration").notNull(), // in seconds
+  format: varchar("format", { length: 20 }).notNull(), // 'landscape', 'vertical', 'square', 'wide'
+  aspectRatio: varchar("aspect_ratio", { length: 10 }).notNull(), // '16:9', '9:16', '1:1', '21:9'
+  style: varchar("style", { length: 50 }).notNull(), // 'presentation', 'educational', 'social', 'cinematic', etc.
+  withVoice: boolean("with_voice").default(true),
+  withMusic: boolean("with_music").default(true),
+  pointsCost: integer("points_cost").notNull(),
+  status: varchar("status", { length: 20 }).notNull().default('processing'), // 'processing', 'completed', 'failed'
   url: text("url"),
   thumbnailUrl: text("thumbnail_url"),
   createdAt: timestamp("created_at").defaultNow().notNull()
@@ -42,10 +47,15 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export const insertVideoSchema = createInsertSchema(videos).pick({
   userId: true,
+  title: true, 
   text: true,
   duration: true,
   format: true,
+  aspectRatio: true,
   style: true,
+  withVoice: true, 
+  withMusic: true,
+  pointsCost: true,
   status: true
 });
 

@@ -8,6 +8,7 @@ import ProfilePage from "@/pages/ProfilePage";
 import NotificationsPage from "@/pages/NotificationsPage";
 import MyVideosPage from "@/pages/videos/MyVideosPage";
 import VideoDetailPage from "@/pages/videos/VideoDetailPage";
+import CreateVideoPage from "@/pages/CreateVideoPage";
 import { lazy, Suspense } from "react";
 import { Header } from "@/components/layouts/Header";
 import { Footer } from "@/components/layouts/Footer";
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/notifications" component={NotificationsPage} />
       <Route path="/videos" component={MyVideosPage} />
       <Route path="/videos/:videoId" component={VideoDetailPage} />
+      <Route path="/video-olustur" component={CreateVideoPage} />
       
       {/* Admin Routes */}
       <Route path="/admin">

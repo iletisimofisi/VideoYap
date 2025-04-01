@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { useModal } from "@/context/ModalContext";
-import { Film, User } from "lucide-react";
+import { Film, User, Wand2 } from "lucide-react";
 
 interface MobileMenuProps {
   onClose: () => void;
@@ -48,6 +48,15 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
         </Link>
         {isLoggedIn ? (
           <>
+            <Link 
+              href="/video-olustur" 
+              onClick={onClose} 
+              className="hover:text-primary transition-colors text-primary flex items-center font-medium"
+            >
+              <Wand2 className="w-5 h-5 mr-2" />
+              Video Oluştur
+            </Link>
+            
             <Link 
               href="/videos" 
               onClick={onClose} 
